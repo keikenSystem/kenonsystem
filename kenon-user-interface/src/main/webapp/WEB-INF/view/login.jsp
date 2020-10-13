@@ -18,28 +18,30 @@
 </head>
 <body class="container-relative">
 	<nav class="navbar fixed-top">
-		<div class="container-relative">
+		<div class="container">
 			<div class="col-2 col-sm-2 col-md-2">
 				<a href="#">kenon</a>
 			</div>
 		</div>
 	</nav>
 	<div class="container">
-		<form>
-		<div><h3>ログイン</h3></div>
-			<div class="form-group">
-				<label for="">社員番号</label> <input
-					type="text" class="form-control" id=""
-					/>
+		<form method="post">
+			<div>
+				<h3>ログイン</h3>
 			</div>
 			<div class="form-group">
-				<label for="">パスワード</label> 
-				<button class="btn-link align-right"><a href="#">パスワードを忘れた方</a></button>
-				<input
-					type="password" class="form-control" id=""
-					placeholder="">
+				<label for="">社員番号</label> <input type="text" class="form-control"
+					id="" name="userId" />
 			</div>
-			<button type="submit" class="btn btn-primary center">ログイン</button>
+			<div class="form-group">
+				<label for="">パスワード</label>
+				<button class="btn-link align-right">
+					<a href="#">パスワードを忘れた方</a>
+				</button>
+				<input type="password" class="form-control" 
+					name="password">
+			</div>
+			<button type="submit" class="btn btn-primary">ログイン</button>
 
 		</form>
 

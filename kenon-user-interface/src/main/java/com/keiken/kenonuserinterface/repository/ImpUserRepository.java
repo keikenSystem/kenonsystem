@@ -14,6 +14,8 @@ public interface ImpUserRepository {
 	public boolean existsById(String userId);
 
 	public EmployeeInfo findById(String userId);
+
+	public void delete(EmployeeInfo userId);
 	
 
 }

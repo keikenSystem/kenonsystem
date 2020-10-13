@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.keiken.kenonuserinterface.service.LoginService;
 
 @Controller
-@SessionAttributes("name")
+@SessionAttributes("userId")
 public class LoginController {
 	
 	@Autowired
@@ -24,14 +24,14 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String showWelcomePage(ModelMap model, @RequestParam String name, @RequestParam String password) {
-		boolean isValidUser = service.validateUser(name, password);
+	public String showWelcomePage(ModelMap model, @RequestParam String userId, @RequestParam String password) {
+		boolean isValidUser = service.validateUser(userId, password);
 		
 		if(!isValidUser) {
 		  model.put("errorMessage","Invalid Credentials");
 		  return "login";
 		}
-		model.put("name", name);
+		model.put("userId", userId);
 		model.put("password", password);
 		return "welcome";
 	}

@@ -1,9 +1,10 @@
 package com.keiken.kenonuserinterface.model;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Component
+@ComponentScan
 public class UserRegisteredInfo {
 	private String userId;
 	private String token;

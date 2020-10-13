@@ -1,23 +1,37 @@
 package com.keiken.kenonuserinterface.operationDTO;
 
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
+import org.springframework.context.annotation.ComponentScan;
 
 import com.keiken.kenonuserinterface.model.EmployeeInfo;
+import com.keiken.kenonuserinterface.repository.ImpUserLoginOperation;
 import com.keiken.kenonuserinterface.repository.ImpUserRepository;
 
-public class GetUserDataDto implements ImpUserRepository{
-//Database connection 
-	
 
+@ComponentScan
+public class GetUserDataDto implements ImpUserRepository,ImpUserLoginOperation{
+  
+	public GetUserDataDto() {
+	// TODO Auto-generated constructor stub
+	  
+}
 
 	@Override
-	public void delete(EmployeeInfo arg0) {
+	public boolean validatedUser(String userId, String password) {
+		
 		// TODO Auto-generated method stub
-		
-		
+		System.out.println("Password checking");
+		System.out.println("value "+userId);
+		if(userId.equals("dummy")&&password.equals("pass"))
+			return true;
+		return false;
+	}
+
+	@Override
+	public EmployeeInfo findById(String userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -27,60 +41,26 @@ public class GetUserDataDto implements ImpUserRepository{
 	}
 
 	@Override
-	public void deleteAll(Iterable<? extends EmployeeInfo> arg0) {
+	public void deleteById(String userId) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteById(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean existsById(String arg0) {
+	public boolean existsById(String userId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Iterable<EmployeeInfo> findAll() {
+	public void delete(EmployeeInfo userId) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Iterable<EmployeeInfo> findAllById(Iterable<String> arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public EmployeeInfo findById(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <S extends EmployeeInfo> S save(S arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <S extends EmployeeInfo> Iterable<S> saveAll(Iterable<S> arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public long count() {
-		// TODO Auto-generated method stub
-		return 0;
+		
 	}
 	
-	
+
+
+
 	
 
 }
