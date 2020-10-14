@@ -1,15 +1,26 @@
 package com.keiken.kenonuserinterface.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
-import org.springframework.context.annotation.ComponentScan;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@ComponentScan
+@Entity
+@Table(name = "m_user_temparature")
 public class TemperatureAndSymtomsMesurement {
+
+	@Column(name = "体温", nullable = false)
 	private double temperature;
+	@Column(name = "症状の有無", nullable = false)
 	private boolean gotSymtoms;
+
+	@Id
+	@Column(name = "社員番号", nullable = false)
 	private String userId;
-	private Date lastUsedTime;
+	@Column(name = "更新日時", nullable = false)
+	private Timestamp lastUsedTime;
 
 	public double getTemperature() {
 		return temperature;
@@ -35,11 +46,11 @@ public class TemperatureAndSymtomsMesurement {
 		this.userId = userId;
 	}
 
-	public Date getLastUsedTime() {
+	public Timestamp getLastUsedTime() {
 		return lastUsedTime;
 	}
 
-	public void setLastUsedTime(Date lastUsedTime) {
+	public void setLastUsedTime(Timestamp lastUsedTime) {
 		this.lastUsedTime = lastUsedTime;
 	}
 

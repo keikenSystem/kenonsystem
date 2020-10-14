@@ -1,24 +1,35 @@
 package com.keiken.kenonuserinterface.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
-import org.springframework.context.annotation.ComponentScan;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
-@ComponentScan
+@Entity
+@Table(name = "m_user")
 public class EmployeeInfo {
 
+	@Column(name = "氏名", nullable = false)
 	private String fullName;
-
+	
+	@Column(name = "氏名カナ", nullable = false)
 	private String fullNameInKata;
-
+	
+	@Id
+	@Column(name = "社員番号", nullable = false)
 	private String userId;
-
+	
+	@Column(name = "部門", nullable = false)
 	private String department;
+	
+	@Column(name = "作成日時", nullable = false)
+	private Timestamp createDate;
 
-	private Date createDate;
-
-	private Date lastUsedDate;
+	@Column(name = "更新日時", nullable = false)
+	private Timestamp lastUsedDate;
 
 	public String getFullName() {
 		return fullName;
@@ -52,19 +63,20 @@ public class EmployeeInfo {
 		this.department = department;
 	}
 
-	public Date getCreateDate() {
+	public Timestamp getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
 
-	public Date getLastUsedDate() {
+	public Timestamp getLastUsedDate() {
 		return lastUsedDate;
 	}
 
-	public void setLastUsedDate(Date lastUsedDate) {
+	public void setLastUsedDate(Timestamp lastUsedDate) {
 		this.lastUsedDate = lastUsedDate;
 	}
+
 }

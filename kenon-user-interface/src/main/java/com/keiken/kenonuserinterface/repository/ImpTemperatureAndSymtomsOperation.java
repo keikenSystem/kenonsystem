@@ -1,6 +1,12 @@
 package com.keiken.kenonuserinterface.repository;
 
-public interface ImpTemperatureAndSymtomsOperation {
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
+
+@Repository
+public interface ImpTemperatureAndSymtomsOperation extends CrudRepository<TemperatureAndSymtomsMesurement, String>{
 	//check by date
 	//insert data
 	

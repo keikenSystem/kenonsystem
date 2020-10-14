@@ -16,15 +16,18 @@
 	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
 	crossorigin="anonymous"></script>
 </head>
-<body class="container-relative">
+<body class="container">
+     <div class="row col-12">
 	<nav class="navbar fixed-top">
-		<div class="container">
-			<div class="col-2 col-sm-2 col-md-2">
+		
+			<div class="col-12">
 				<a href="#">kenon</a>
 			</div>
-		</div>
+		
 	</nav>
-	<div class="container">
+	</div>
+	<div class="row">
+	<div >
 		<form method="post">
 			<div>
 				<h3>ログイン</h3>
@@ -46,6 +49,7 @@
 		</form>
 
 
+	</div>
 	</div>
 
 

@@ -25,7 +25,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String showWelcomePage(ModelMap model, @RequestParam String userId, @RequestParam String password) {
-		boolean isValidUser = service.validateUser(userId, password);
+		boolean isValidUser = service.validated(userId, password);
 		
 		if(!isValidUser) {
 		  model.put("errorMessage","Invalid Credentials");
