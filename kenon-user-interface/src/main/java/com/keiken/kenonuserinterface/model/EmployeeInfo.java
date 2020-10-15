@@ -22,6 +22,9 @@ public class EmployeeInfo {
 	@Column(name = "社員番号", nullable = false)
 	private String userId;
 	
+	@Column(name="メールアドレス",nullable= false)
+	private String email;
+	
 	@Column(name = "部門", nullable = false)
 	private String department;
 	
