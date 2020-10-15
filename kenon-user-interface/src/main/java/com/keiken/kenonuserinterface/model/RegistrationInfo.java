@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Entity
 @Table(name = "m_user_password")
-public abstract class UserRegisteredInfo {
+public class RegistrationInfo {
 
 	@Id
 	@Column(name = "社員番号", nullable = false)
@@ -20,8 +20,8 @@ public abstract class UserRegisteredInfo {
 	private String token;
 	@Column(name = "パスワード", nullable = false)
 	private String password;
-	
-	@Column(name="role")
+
+	@Column(name = "role")
 	private String role;
 
 	public String getRole() {
@@ -62,19 +62,12 @@ public abstract class UserRegisteredInfo {
 				+ "]";
 	}
 
-	public UserRegisteredInfo(String userId, String token, String password, String role) {
-		super();
-		this.userId = userId;
-		this.token = token;
-		this.password = password;
-		this.role = role;
-	}
-
-	public UserRegisteredInfo() {
-		
-	}
-	
-	
-	
+//	public RegistrationInfo(String userId, String token, String password, String role) {
+//		super();
+//		this.userId = userId;
+//		this.token = token;
+//		this.password = password;
+//		this.role = role;
+//	}
 
 }
