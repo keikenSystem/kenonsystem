@@ -16,41 +16,47 @@
 	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
 	crossorigin="anonymous"></script>
 </head>
-<body class="container">
-     <div class="row col-12">
-	<nav class="navbar fixed-top">
-		
-			<div class="col-12">
-				<a href="#">kenon</a>
-			</div>
-		
+<body class="container-fluid">
+    
+    <nav class="navbar bg-secondary">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+				 <a href="#" class="nav-link">kenon</a>
+				</li>
+					
+			</ul>
+	
 	</nav>
-	</div>
-	<div class="row">
-	<div >
-		<form method="post">
-			<div>
-				<h3>ログイン</h3>
+	
+	
+		<form method="post" class="pl-3">
+			<div class="pt-3">
+				<h4>ログイン</h4>
 			</div>
-			<div class="form-group">
-				<label for="">社員番号</label> <input type="text" class="form-control"
+			<div class="form-group pt-3">
+				<label for="userId">社員番号</label> <input type="text" class="form-control"
 					id="" name="userId" />
 			</div>
-			<div class="form-group">
-				<label for="">パスワード</label>
-				<button class="btn-link align-right">
-					<a href="#">パスワードを忘れた方</a>
-				</button>
+			<div class="form-group pt-1">
+		       
+		       <div>
+				<label for="password">パスワード</label>
+			</div>
+				<div style="text-align:right;">
+					<a  href="#">パスワードを忘れた方</a>
+					</div>
+			
 				<input type="password" class="form-control" 
 					name="password">
 			</div>
-			<button type="submit" class="btn btn-primary">ログイン</button>
+			<button type="submit" class="btn btn-primary form-control">ログイン</button>
 
 		</form>
+		
 
+	
 
-	</div>
-	</div>
+	
 
 
 </body>
