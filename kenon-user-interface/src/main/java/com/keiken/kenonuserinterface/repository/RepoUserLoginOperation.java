@@ -8,6 +8,8 @@ import com.keiken.kenonuserinterface.model.RegistrationInfo;
 @Repository
 public interface RepoUserLoginOperation extends CrudRepository<RegistrationInfo, String>{
 	//Invite with token;
+	
+	
 
 
 }

@@ -18,7 +18,7 @@
 </head>
 <body class="container-fluid">
 
-	<nav class="navbar" style="background-color:#DCDCDC">
+	<nav class="navbar" style="background-color: #DCDCDC">
 		<ul class="navbar-nav">
 			<li class="nav-item"><a href="#" class="nav-link">kenon</a></li>
 		</ul>
@@ -28,28 +28,16 @@
 
 	<form method="post" class="pl-3">
 		<div class="pt-3">
-			<h4>ログイン</h4>
+			<h4>パスワード再設定</h4>
 		</div>
 		<div class="form-group pt-3">
-			<label for="userId">社員番号</label> <input type="text"
-				class="form-control" id="" name="userId" />
+			<label for="email">メールアドレス</label> <input type="email"
+				class="form-control" id="" name="userEmail" />
 		</div>
-		<div class="form-group pt-1">
-
-			<div>
-				<label for="password">パスワード</label>
-			</div>
-			<div style="text-align: right;">
-				<a href="recover">パスワードを忘れた方</a>
-			</div>
-
-			<input type="password" class="form-control" name="password">
-		</div>
-		<button type="submit" class="btn btn-primary form-control">ログイン</button>
+		
+		<button type="submit" class="btn btn-primary form-control">送信</button>
 
 	</form>
-
-
 
 
 
