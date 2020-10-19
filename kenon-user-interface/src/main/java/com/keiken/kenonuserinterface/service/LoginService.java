@@ -16,11 +16,13 @@ public class LoginService {
 	
 	@Autowired
 	private RepoUserLoginOperation repoUserLoginOperation;
+	private boolean role=false;
 	
 	public boolean validated(String userId, String password) {
 	
 	
 		RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
+		
 		if(user.getPassword().equals(password))
 			return true;
 	

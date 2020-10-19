@@ -33,6 +33,26 @@ public class EmployeeInfo {
 
 	@Column(name = "更新日時", nullable = false)
 	private Timestamp lastUsedDate;
+	
+	@Column(name = "管理権限", nullable = false)
+	private boolean admin;
+
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setRole(boolean admin) {
+		this.admin = admin;
+	}
 
 	public String getFullName() {
 		return fullName;

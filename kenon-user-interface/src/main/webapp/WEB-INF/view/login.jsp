@@ -26,7 +26,7 @@
 	</nav>
 
 
-	<form method="post" class="pl-3">
+	<form  method="post" class="pl-3">
 		<div class="pt-3">
 			<h4>ログイン</h4>
 		</div>
@@ -40,7 +40,7 @@
 				<label for="password">パスワード</label>
 			</div>
 			<div style="text-align: right;">
-				<a href="recover">パスワードを忘れた方</a>
+				<a href="login/recover">パスワードを忘れた方</a>
 			</div>
 
 			<input type="password" class="form-control" name="password">

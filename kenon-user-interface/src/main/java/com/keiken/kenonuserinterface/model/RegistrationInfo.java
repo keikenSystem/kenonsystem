@@ -21,17 +21,6 @@ public class RegistrationInfo {
 	@Column(name = "パスワード", nullable = false)
 	private String password;
 
-	@Column(name = "role")
-	private String role;
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 	public String getUserId() {
 		return userId;
 	}
@@ -56,11 +45,6 @@ public class RegistrationInfo {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "UserRegisteredInfo [userId=" + userId + ", token=" + token + ", password=" + password + ", role=" + role
-				+ "]";
-	}
 
 //	public RegistrationInfo(String userId, String token, String password, String role) {
 //		super();
