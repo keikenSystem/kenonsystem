@@ -29,6 +29,7 @@
 	<form  method="post" class="pl-3">
 		<div class="pt-3">
 			<h4>ログイン</h4>
+			<p style="color:red">${errorMessage}</p>
 		</div>
 		<div class="form-group pt-3">
 			<label for="userId">社員番号</label> <input type="text"
@@ -40,7 +41,7 @@
 				<label for="password">パスワード</label>
 			</div>
 			<div style="text-align: right;">
-				<a href="login/recover">パスワードを忘れた方</a>
+				<a href="/kenon/login/recover">パスワードを忘れた方</a>
 			</div>
 
 			<input type="password" class="form-control" name="password">

@@ -1,32 +1,27 @@
 package com.keiken.kenonuserinterface.service;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+@ComponentScan
+@Scope("session")
 @Service
 public class PageControlService {
-	
-	private boolean loggedIn;
-	private String loggedId;
-	public String getLoggedId() {
-		return loggedId;
-	}
-	public void setLoggedId(String loggedId) {
-		this.loggedId = loggedId;
-	}
-	private boolean visitLogin;
-	
-	public boolean isLoggedIn() {
-		return loggedIn;
-	}
-	public void setLoggedIn(boolean isLoggedIn) {
-		this.loggedIn = isLoggedIn;
-	}
-	public boolean isVisitLogin() {
-		return visitLogin;
-	}
-	public void setVisitLogin(boolean isVisitLogin) {
-		this.visitLogin = isVisitLogin;
-	}
-	
 
+	private String userId;
+	private String role;
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

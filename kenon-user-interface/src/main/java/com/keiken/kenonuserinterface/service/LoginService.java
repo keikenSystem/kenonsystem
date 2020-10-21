@@ -18,13 +18,19 @@ public class LoginService {
 	private RepoUserLoginOperation repoUserLoginOperation;
 	private boolean role=false;
 	
+	
+	public boolean checkUserIdExistOrNot(String userId) {
+		
+			return repoUserLoginOperation.findById(userId).isPresent();
+			
+	}
+	
 	public boolean validated(String userId, String password) {
 	
-	
 		RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
-		
 		if(user.getPassword().equals(password))
 			return true;
+
 	
 		 
 		return false;
