@@ -40,7 +40,6 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(ModelMap model) {
 		System.out.println("get requested");
-		
 		return "login";
 	}
 
@@ -65,7 +64,7 @@ public class LoginController {
 	
     //  pageControlService.setUserId(userId);
       session.setAttribute("userId", userId);
-      
+      session.setAttribute("isLoggedIn", true);
      
 		String role="admin";
 		  
@@ -82,7 +81,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login/recover", method = RequestMethod.GET)
 	public String recoverPassword(ModelMap model) {
-		if (session.getAttribute("userId")!=null&&session.getAttribute("role")!=null)
+		if (session.getAttribute("userId")!=null && session.getAttribute("role")!=null && (boolean)session.getAttribute("isLoggedIn")==true)
 			return "recover_pass";
 		else
 			return "redirect:/login";
@@ -93,18 +92,26 @@ public class LoginController {
 	public String recoverPassword(ModelMap model, @RequestParam String userEmail) {
 
 		mailService.sendEmail(userEmail);
+		session.removeAttribute("userId");
+		session.removeAttribute("role");
+		session.removeAttribute("isLoggedIn");
 
 		return "redirect:/login";
 
 	}
+	
 	
 	
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
 	public String logout() {
 		session.removeAttribute("userId");
 		session.removeAttribute("role");
+		session.removeAttribute("isLoggedIn");
 		return "redirect:/login";
 	}
+	
+	
+	
 	
 	
 

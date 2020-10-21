@@ -38,6 +38,12 @@ public class LoginService {
 		
 	}
 	
+	public void resetPassword(String userId,String newPassword) {
+		RegistrationInfo user= repoUserLoginOperation.findById(userId).get();
+		user.setPassword(newPassword);
+		 repoUserLoginOperation.save(user);
+	}
+	
 	
 	
 

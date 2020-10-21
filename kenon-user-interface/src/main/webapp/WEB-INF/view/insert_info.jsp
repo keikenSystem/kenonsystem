@@ -42,6 +42,7 @@
 					<li><a href="/kenon/admin/user_information/">体調の入力</a></li>
 					<li><a href="/kenon/admin/add_user">ユーザの取り込み</a></li>
 					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
+					</ul>
 			</div>
 
 		</div>
@@ -53,7 +54,7 @@
 			<a href="/kenon/logout">ログアウト</a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
-			<a href="#">パスワード変更</a>
+			<a href="/kenon/password_reset">パスワード変更</a>
 		</div>
 
 	</nav>

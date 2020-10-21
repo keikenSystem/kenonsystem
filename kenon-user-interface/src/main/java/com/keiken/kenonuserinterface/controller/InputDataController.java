@@ -15,7 +15,6 @@ import com.keiken.kenonuserinterface.service.UserDataService;
 @Controller
 public class InputDataController {
 
-	
 
 	@Autowired
 	UserDataService userDataService;
@@ -26,12 +25,13 @@ public class InputDataController {
 				
 		String userSession = (String) session.getAttribute("userId");
 
-		String role = (String) session.getAttribute("role");
-		System.out.println("userrrrrrrrrrrrrrrrr input page"+userSession+" "+role);
-		if(role==null||role.equals("user")){
+		String role = (String) session.getAttribute("role");	
+		if(role==null||role.equals("user")||session.getAttribute("isLoggedIn")==null){
+			session.removeAttribute("userId");
+			session.removeAttribute("role");
+			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
-		
 		System.out.println("user info admin");
 
 
@@ -51,12 +51,13 @@ public class InputDataController {
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
-		System.out.println("userrrrrrrrrrrrrrrrr input page"+userSession+" "+role);
-		if(!userSession.equals(userId)||role==null){
+		if(!userSession.equals(userId)||role==null||session.getAttribute("isLoggedIn")==null){
+			session.removeAttribute("userId");
+			session.removeAttribute("role");
+			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
 		
-		System.out.println("user info get");
 		model.addAttribute("userId", userId);
 		model.addAttribute("role", role);
 		model.put("lastUsedDate",userDataService.getLastUsedDateText(userId));
