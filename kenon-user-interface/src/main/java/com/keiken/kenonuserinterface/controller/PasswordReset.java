@@ -1,5 +1,7 @@
 package com.keiken.kenonuserinterface.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class PasswordReset {
 
 	@RequestMapping(value = "/password_reset", method = RequestMethod.POST)
 	public ModelAndView passwordResetOperation(ModelMap model, @RequestParam String currentPassword,
-			@RequestParam String newPassword, @RequestParam String confirmPassword) {
+			@RequestParam String newPassword, @RequestParam String confirmPassword) throws NoSuchAlgorithmException {
 		if (session.getAttribute("isLoggedIn") == null) {
 
 			session.removeAttribute("userId");

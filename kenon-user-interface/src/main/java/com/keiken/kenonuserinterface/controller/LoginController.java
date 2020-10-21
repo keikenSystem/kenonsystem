@@ -1,5 +1,7 @@
 package com.keiken.kenonuserinterface.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView showWelcomePage(ModelMap model, @RequestParam String userId, @RequestParam String password) {
+	public ModelAndView showWelcomePage(ModelMap model, @RequestParam String userId, @RequestParam String password) throws NoSuchAlgorithmException {
 		  ModelAndView logmv = new ModelAndView("login");
 		  
 		if(!loginService.checkUserIdExistOrNot(userId)) {
