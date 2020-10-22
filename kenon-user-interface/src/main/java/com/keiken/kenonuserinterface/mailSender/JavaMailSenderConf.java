@@ -6,17 +6,39 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.keiken.kenonuserinterface.model.EmployeeInfo;
+import com.keiken.kenonuserinterface.repository.RepoUser;
+import com.keiken.kenonuserinterface.service.EmailControlService;
+import com.keiken.kenonuserinterface.service.UserDataService;
+
 @Service
 public class JavaMailSenderConf {
+
+	@Autowired
+	 EmailControlService emailControlService;
 	
 	@Autowired
-	private JavaMailSender javaMailSender;
-	public void sendEmail(String mail) {
+	UserDataService userDataService;
+	
+	@Autowired
+	 JavaMailSender javaMailSender;
+
+
+	public String getUserIdByEmail(String mail) {
+		return emailControlService.getUserIdByEmailId(mail);
+	}
+
+	public void sendEmail(String mail, String userId) {
+
 		SimpleMailMessage msg = new SimpleMailMessage();
-		String token="";
+		String token = emailControlService.createTokenForPasswordReset(userId);
+		String name = userDataService.findName(userId);
 		msg.setTo(mail);
-		msg.setSubject("testing with email");
-		msg.setText("please reset your password with this link "+token);
+		msg.setSubject("（ケンンシステム）パスワード再設定のメール");
+		msg.setText(name + "様" + "\n\n"
+				+ "パスワードをリセットするには次のリンクをクリックしてください。\n http://localhost:8086/kenon/new_password_set?userId=" + userId
+				+ "&token=" + token + "\nこのURLにクリックしてパスワードリセットください");
+
 		javaMailSender.send(msg);
 	}
 

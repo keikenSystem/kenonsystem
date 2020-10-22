@@ -33,11 +33,14 @@ public class LoginService {
 		RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
 		if(user.getPassword().equals(passwordEncoder.encodedPassword(password)))
 			return true;
-
-	
 		 
 		return false;
 		
+	}
+	
+	public boolean isTokenMatch(String userId, String token) {
+	   RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
+	   return user.getToken().equals(token);
 		
 	}
 	
@@ -46,6 +49,16 @@ public class LoginService {
 		user.setPassword(passwordEncoder.encodedPassword(newPassword));
 		 repoUserLoginOperation.save(user);
 	}
+
+	public void removeToken(String userId) {
+		// TODO Auto-generated method stub
+		  RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
+		  user.setToken("");
+		  repoUserLoginOperation.save(user);
+	
+	}
+
+
 	
 	
 	

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.keiken.kenonuserinterface.mailSender.JavaMailSenderConf;
 import com.keiken.kenonuserinterface.service.LoginService;
-import com.keiken.kenonuserinterface.service.PageControlService;
+import com.keiken.kenonuserinterface.service.EmailControlService;
 import com.keiken.kenonuserinterface.service.UserDataService;
 
 @Controller
@@ -83,21 +83,21 @@ public class LoginController {
 
 	@RequestMapping(value = "/login/recover", method = RequestMethod.GET)
 	public String recoverPassword(ModelMap model) {
-		if (session.getAttribute("userId")!=null && session.getAttribute("role")!=null && (boolean)session.getAttribute("isLoggedIn")==true)
-			return "recover_pass";
-		else
-			return "redirect:/login";
-
+		session.setAttribute("isVisit", true);
+		return "recover_pass";
+		
 	}
 
 	@RequestMapping(value = "/login/recover", method = RequestMethod.POST)
 	public String recoverPassword(ModelMap model, @RequestParam String userEmail) {
-
-		mailService.sendEmail(userEmail);
+       if(session.getAttribute("isVisit")==null) return "redirect:/login";
+		String userId= mailService.getUserIdByEmail(userEmail);
+		mailService.sendEmail(userEmail,userId);
+		System.out.print("check email");
 		session.removeAttribute("userId");
 		session.removeAttribute("role");
 		session.removeAttribute("isLoggedIn");
-
+       session.removeAttribute("isVisit");
 		return "redirect:/login";
 
 	}

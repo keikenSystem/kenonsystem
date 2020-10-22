@@ -73,5 +73,40 @@ public class PasswordReset {
 		return new ModelAndView("redirect:/login");
 
 	}
+	
+	//New password set with Email link
+	
+	@RequestMapping(value = "/new_password_set", method = RequestMethod.GET)
+	public ModelAndView newPasswordSetView(ModelMap model, @RequestParam String userId, @RequestParam String token) {
+        session.setAttribute("userId", userId);
+       if(!loginService.isTokenMatch(userId, token)) {
+    	   session.removeAttribute(userId);
+    	  return new ModelAndView("redirect:/login");
+       }
+       
+		return new ModelAndView("/new_password_set");
+	}
+
+	@RequestMapping(value = "/new_password_set", method = RequestMethod.POST)
+	public ModelAndView newPasswordSetOperation(ModelMap model,@RequestParam String newPassword, @RequestParam String confirmPassword) throws NoSuchAlgorithmException {
+	
+		String errorMsg = "";
+
+		if (!newPassword.equals(confirmPassword)) {
+			errorMsg += "newPassword and confirm password doesn't match ";
+			model.put("errorMessage", errorMsg);
+			System.out.println(errorMsg);
+			return new ModelAndView("new_password_set", model);
+		}
+
+		// Change password
+        String userId = (String) session.getAttribute("userId");
+		loginService.resetPassword(userId, newPassword);
+		loginService.removeToken(userId);
+
+
+		return new ModelAndView("redirect:/login");
+
+	}
 
 }

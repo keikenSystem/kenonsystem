@@ -22,29 +22,19 @@
 			<div class="d-inline-block p-3">
 			<a href="#">kenon</a>
 		</div>
-		<div class="d-inline-block p-3 float-right">
-			<a href="/kenon/logout">ログアウト</a>
-		</div>
-		<div class="d-inline-block p-3 float-right">
-			<a style="color:black" href="/kenon/password_reset">パスワード変更</a>
-		</div>
 
 	</nav>
 
 
-	<form action="/kenon/password_reset" method="post" class="pl-3">
+	<form action="/kenon/new_password_set" method="post" class="pl-3">
 		<div class="pt-3">
-			<h4>パスワード変更</h4>
+			<h4>パスワード再設定</h4>
 			<p style="color: red">${errorMessage}</p>
-		</div>
-		<div class="form-group pt-3">
-			<label for="current_password">現在のパスワード</label> <input type="password"
-				class="form-control" id="current_password" name="currentPassword" />
 		</div>
 		<div class="form-group pt-1">
 
 
-			<label for="new_password">パスワード</label> <input type="password"
+			<label for="new_password">パスワード（６文字以上）</label> <input type="password"
 				class="form-control" id="new_password" name="newPassword" />
 		</div>
 		<div class="form-group pt-1">
