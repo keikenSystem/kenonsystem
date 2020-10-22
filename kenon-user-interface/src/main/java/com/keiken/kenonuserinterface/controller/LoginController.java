@@ -30,6 +30,9 @@ public class LoginController {
 
 	@Autowired
 	JavaMailSenderConf mailService;
+	
+	@Autowired
+	EmailControlService emailControlService;
   
 	@Autowired
 	HttpSession session;
@@ -44,9 +47,10 @@ public class LoginController {
 // Get Login page
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage(ModelMap model) {
+	public ModelAndView loginPage(ModelMap model) {
 		System.out.println("get requested");
-		return "login";
+		model.put("errorMessage","");
+		return new ModelAndView("login",model);
 	}
 
 	
@@ -97,16 +101,24 @@ public class LoginController {
 	// Password Recover operation 
 	
 	@RequestMapping(value = "/login/recover", method = RequestMethod.POST)
-	public String recoverPasswordOperation(ModelMap model, @RequestParam String userEmail) {
-       if(session.getAttribute("isVisit")==null) return "redirect:/login";
-		String userId= mailService.getUserIdByEmail(userEmail);
+	public ModelAndView recoverPasswordOperation(ModelMap model, @RequestParam String userEmail) {
+       if(session.getAttribute("isVisit")==null) return new ModelAndView("redirect:/login");
+       String errorMsg = "Email is not registerd, please try again";
+       if(!emailControlService.isEmailIdExistOrNot(userEmail))
+       {
+    	   model.put("errorMessage",errorMsg);
+    	   return new ModelAndView("recover_pass",model);
+       }
+       
+		String userId= emailControlService.getUserIdByEmailId(userEmail);
 		mailService.sendEmail(userEmail,userId);
 		System.out.print("check email");
 		session.removeAttribute("userId");
 		session.removeAttribute("role");
 		session.removeAttribute("isLoggedIn");
        session.removeAttribute("isVisit");
-		return "redirect:/login";
+       
+       return new ModelAndView("redirect:/login");
 
 	}
 	

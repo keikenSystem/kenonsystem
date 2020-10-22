@@ -28,7 +28,7 @@
 	<nav class="navbar" style="background-color: #DCDCDC">
 		<ul class="navbar-nav font-weight-bold h4">
 			<li class="nav-item"><a href="/kenon/login" class="nav-link"><img
-					alt="" src="icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">kenon</span></a></li>
+					alt="" src="../icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">kenon</span></a></li>
 		</ul>
 
 	</nav>
@@ -44,7 +44,7 @@
 		</div>
 		<div class="form-group pt-3">
 			<label for="userId">社員番号</label> <input type="text"
-				class="form-control" id="" name="userId" />
+				class="form-control" id="" name="userId" required="required"/>
 		</div>
 		<div class="form-group pt-1">
 
@@ -55,9 +55,9 @@
 				<a href="/kenon/login/recover">パスワードを忘れた方</a>
 			</div>
 
-			<input type="password" class="form-control" name="password">
+			<input type="password" class="form-control" name="password" re/>
 		</div>
-		<button type="submit" class="btn btn-primary form-control">ログイン</button>
+		<button type="submit" class="btn btn-primary form-control" >ログイン</button>
 		
 
 	</form>

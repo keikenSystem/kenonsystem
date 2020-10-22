@@ -48,19 +48,19 @@
 		</div>
 		<div class="form-group pt-3">
 			<label for="current_password">現在のパスワード</label> <input type="password"
-				class="form-control" id="current_password" name="currentPassword" />
+				class="form-control" id="current_password" name="currentPassword" required="required"/>
 		</div>
 		<div class="form-group pt-1">
 
 
 			<label for="new_password">パスワード</label> <input type="password"
-				class="form-control" id="new_password" name="newPassword" />
+				class="form-control" id="new_password" name="newPassword" required="required"/>
 		</div>
 		<div class="form-group pt-1">
 
 			<label for="confirm_password">パスワード（確認用）</label> <input
 				type="password" class="form-control" name="confirmPassword"
-				id="confirm_password">
+				id="confirm_password" required="required"/>
 		</div>
 
 		<button type="submit" class="btn btn-primary form-control">パスワード変更</button>

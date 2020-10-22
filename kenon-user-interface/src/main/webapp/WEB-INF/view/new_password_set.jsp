@@ -48,14 +48,14 @@
 		
 		<div class="form-group pt-1">
 			<label for="new_password">パスワード（６文字以上）</label> <input type="password"
-				class="form-control" id="new_password" name="newPassword" />
+				class="form-control" id="new_password" name="newPassword"  required="required"/>
 		</div>
 		
 		<div class="form-group pt-1">
 
 			<label for="confirm_password">パスワード（確認用）</label> <input
 				type="password" class="form-control" name="confirmPassword"
-				id="confirm_password">
+				id="confirm_password" required="required"/>
 		</div>
 
 		<button type="submit" class="btn btn-primary form-control">パスワード変更</button>

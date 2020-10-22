@@ -27,7 +27,7 @@
 		<div class="d-inline-block p-3 font-weight-bold">
 			
 			<a href="/kenon/user_information"><img
-					alt="" src="../icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
+					alt="" src="icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		
 <!-- -------------------Jsp for controlling  admin  ----------------->

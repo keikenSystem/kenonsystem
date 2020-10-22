@@ -47,6 +47,19 @@ public class EmailControlService {
 
 		return userList.get(0).getUserId();
 	}
+	
+	//Check inserted email id exist or not
+	
+	public boolean isEmailIdExistOrNot(String email) {
+		
+		List<EmployeeInfo> userList = repoUser.findUserByEmail(email);
+
+		if(userList.size()==0)
+			return false;
+		
+		return true;
+	}
+	
 
 	//Getters and setters for Token
 	

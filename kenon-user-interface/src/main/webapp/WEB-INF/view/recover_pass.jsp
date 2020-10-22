@@ -34,10 +34,11 @@
 	
 		<div class="pt-3">
 			<h4>パスワード再設定</h4>
+			<p style="color: red">${errorMessage}</p>
 		</div>
 		<div class="form-group pt-3">
 			<label for="email">メールアドレス</label> <input type="email"
-				class="form-control" id="" name="userEmail" />
+				class="form-control" id="" name="userEmail" required="required" />
 		</div>
 
 		<button type="submit" class="btn btn-primary form-control">送信</button>
