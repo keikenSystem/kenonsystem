@@ -10,26 +10,19 @@ import com.keiken.kenonuserinterface.model.EmployeeInfo;
 import com.keiken.kenonuserinterface.model.RegistrationInfo;
 import com.keiken.kenonuserinterface.repository.RepoUser;
 
+
 @Service
 public class UserDataService {
 	
 
 	@Autowired
 	private RepoUser userDataRepo;
-	
 	private String name;
-
 	
-	public String getName() {
-		return name;
-	}
 
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
+// To control Role 
+	
 	public boolean isAdmin(String userId) {
 	
 	       Optional<EmployeeInfo> employeeData =  userDataRepo.findById(userId);
@@ -39,7 +32,8 @@ public class UserDataService {
 		
 	}
 	
-
+	// find Date in string  to set into the user information form 
+	
 	public String getLastUsedDateText(String userId) {
 		EmployeeInfo employeeData =  userDataRepo.findById(userId).get();
 		Timestamp lastTimeStamp = employeeData.getLastUsedDate();
@@ -55,12 +49,8 @@ public class UserDataService {
 		
 	}
 
-
-
-
-
-
-
+// find Full name to set into the user information form 
+	
 	public String findName(String userId) {
 		// TODO Auto-generated method stub
 		
@@ -68,7 +58,16 @@ public class UserDataService {
 		return data.getFullName();
 	}
 	
+	// Getters and setters method
 	
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	
 

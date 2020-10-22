@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.keiken.kenonuserinterface.service.UserDataService;
 
+/* This controller used to control request for insert information user page  */
+
+
+
+/// Get and post method to show user information page 
+
+
 
 @Controller
 public class InputDataController {
@@ -18,6 +25,9 @@ public class InputDataController {
 
 	@Autowired
 	UserDataService userDataService;
+	
+	
+	//To Control admin input data
 	
 	@RequestMapping(value = "/admin/user_information", method = RequestMethod.GET)
 	public String showInfoInputPage(ModelMap model,HttpSession session) {
@@ -32,7 +42,6 @@ public class InputDataController {
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
-		System.out.println("user info admin");
 
 
 		model.put("lastUsedDate",userDataService.getLastUsedDateText(userSession));
@@ -43,7 +52,9 @@ public class InputDataController {
 	
 	}
 
-
+// To show both user and admin information 
+	
+	
 	@RequestMapping(value = "user_information", method = RequestMethod.GET)
 	public String showInfoInputPage(ModelMap model,HttpSession session, @RequestParam String userId ) {
 		

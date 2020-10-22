@@ -6,27 +6,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>kenon</title>
+<title>体温の入力</title>
 <!-- bootstrap cdn for css,js -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="container-fluid mt-3">
-
-
+ 
+ <!-- Flag for admin or user role -->
+ 
 	<%
 		String userRole = (String) request.getAttribute("role");
 	%>
 
 
+<!-- -------------------Nav bar ----------------->
 
-	<nav style="background-color: #DCDCDC" class="m-3">
-
-
-		<div class="d-inline-block p-3">
-			<a href="#">kenon</a>
+	<nav style="background-color: #DCDCDC" class="m-3 h4 ">
+		<div class="d-inline-block p-3 font-weight-bold">
+			
+			<a href="/kenon/user_information"><img
+					alt="" src="../icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
+		
+<!-- -------------------Jsp for controlling  admin  ----------------->
+
 		<%
 			if (userRole.equals("admin")) {
 		%>
@@ -44,9 +49,7 @@
 					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
 					</ul>
 			</div>
-
 		</div>
-
 		<%
 			}
 		%>
@@ -58,7 +61,12 @@
 		</div>
 
 	</nav>
-
+ 
+ 
+ 
+ <!-- -------------------------------------------- Input information form --------------------------------- -->
+ 
+ 
 
 	<form method="post" class="pl-3 m-4" style="font-size: 13px">
 		<div class="pt-3">
@@ -102,6 +110,7 @@
 
 
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 				integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 				crossorigin="anonymous"></script>

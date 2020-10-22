@@ -13,6 +13,12 @@ import com.keiken.kenonuserinterface.repository.RepoTemperatureAndSymtomsOperati
 import com.keiken.kenonuserinterface.repository.RepoUser;
 import com.keiken.kenonuserinterface.repository.RepoUserLoginOperation;
 
+
+Class to import data into data table in database 
+
+/*......Class to insert data into database table in runtime........... */
+
+
 @Component
 public class RecordCreationIntoTable  {
 

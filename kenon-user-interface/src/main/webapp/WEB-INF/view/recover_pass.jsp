@@ -4,29 +4,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>kenon</title>
+<title>メール アルデレスの入力</title>
+
 <!-- bootstrap cdn for css,js -->
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-	crossorigin="anonymous"></script>
 </head>
+
+
 <body class="container-fluid">
 
-	<nav class="navbar" style="background-color: #DCDCDC">
-		<ul class="navbar-nav">
-			<li class="nav-item"><a href="#" class="nav-link">kenon</a></li>
-		</ul>
+<!-- ------------------------nav bar------------------------ -->
+
+
+	<nav class="navbar h4" style="background-color: #DCDCDC">
+	<div class="d-inline-block p-3 font-weight-bold">
+			<a href="/kenon/login"><img
+					alt="" src="../icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
+		</div>
 
 	</nav>
+ 
+
+ <!-- ------------------------Email address Form ------------------- -->
 
 
 	<form method="post" class="pl-3">
+	
 		<div class="pt-3">
 			<h4>パスワード再設定</h4>
 		</div>
@@ -34,14 +39,26 @@
 			<label for="email">メールアドレス</label> <input type="email"
 				class="form-control" id="" name="userEmail" />
 		</div>
-		
+
 		<button type="submit" class="btn btn-primary form-control">送信</button>
 
 	</form>
-
-
-
-
+	
+	
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+				integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+				crossorigin="anonymous"></script>
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+				integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+				crossorigin="anonymous"></script>
+	<script
+				src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+				integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+				crossorigin="anonymous"></script>
+	
 
 </body>
 </html>

@@ -22,6 +22,8 @@ public class PasswordReset {
 	@Autowired
 	LoginService loginService;
 
+	
+	
 	@RequestMapping(value = "/password_reset", method = RequestMethod.GET)
 	public String passwordResetView(ModelMap model) {
 
@@ -33,6 +35,8 @@ public class PasswordReset {
 
 		return "reset_password";
 	}
+	//Password reset Operation and checking 
+	//Helper LoginService , 
 
 	@RequestMapping(value = "/password_reset", method = RequestMethod.POST)
 	public ModelAndView passwordResetOperation(ModelMap model, @RequestParam String currentPassword,
@@ -74,7 +78,8 @@ public class PasswordReset {
 
 	}
 	
-	//New password set with Email link
+	//New password set with  link provided by Email
+	//Helper LoginService 
 	
 	@RequestMapping(value = "/new_password_set", method = RequestMethod.GET)
 	public ModelAndView newPasswordSetView(ModelMap model, @RequestParam String userId, @RequestParam String token) {
@@ -86,6 +91,8 @@ public class PasswordReset {
        
 		return new ModelAndView("/new_password_set");
 	}
+	
+	//New Password setting
 
 	@RequestMapping(value = "/new_password_set", method = RequestMethod.POST)
 	public ModelAndView newPasswordSetOperation(ModelMap model,@RequestParam String newPassword, @RequestParam String confirmPassword) throws NoSuchAlgorithmException {

@@ -10,6 +10,8 @@ import java.security.SecureRandom;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+//Password encoder Class to encode password
+
 @ComponentScan
 @Service
 public class PasswordEncoder {

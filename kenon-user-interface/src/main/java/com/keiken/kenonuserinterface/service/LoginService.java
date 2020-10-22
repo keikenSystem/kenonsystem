@@ -22,11 +22,15 @@ public class LoginService {
 	@Autowired
 	 PasswordEncoder passwordEncoder;
 	
+	//Check userid exist or not
+	
 	public boolean checkUserIdExistOrNot(String userId) {
 		
 			return repoUserLoginOperation.findById(userId).isPresent();
 			
 	}
+	
+	//Get permission to logged in
 	
 	public boolean validated(String userId, String password) throws NoSuchAlgorithmException {
 	
@@ -38,17 +42,23 @@ public class LoginService {
 		
 	}
 	
+	//user is valid to use token to password reset or not
+	
 	public boolean isTokenMatch(String userId, String token) {
 	   RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
 	   return user.getToken().equals(token);
 		
 	}
 	
+	// Replace the existing password with new password
+	
 	public void resetPassword(String userId,String newPassword) {
 		RegistrationInfo user= repoUserLoginOperation.findById(userId).get();
 		user.setPassword(passwordEncoder.encodedPassword(newPassword));
 		 repoUserLoginOperation.save(user);
 	}
+	
+	//Dismiss the validity of  password reset link sending using email removing token
 
 	public void removeToken(String userId) {
 		// TODO Auto-generated method stub
@@ -58,16 +68,4 @@ public class LoginService {
 	
 	}
 
-
-	
-	
-	
-
-
-		
-		
-		
-		
-	
-	
 }

@@ -17,6 +17,8 @@ import com.keiken.kenonuserinterface.service.LoginService;
 import com.keiken.kenonuserinterface.service.EmailControlService;
 import com.keiken.kenonuserinterface.service.UserDataService;
 
+/* Login , Logout and password recover using email */
+
 @Controller
 public class LoginController {
 
@@ -31,20 +33,26 @@ public class LoginController {
   
 	@Autowired
 	HttpSession session;
-
+	
+ //show login page 
 	
 	@RequestMapping("/")
 	public String home() {
 		return "redirect:/login";
 	}
 	
-
+// Get Login page
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(ModelMap model) {
 		System.out.println("get requested");
 		return "login";
 	}
 
+	
+	// Permission controller for logged in
+	//Helper  LoginService, UserDataService
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView showWelcomePage(ModelMap model, @RequestParam String userId, @RequestParam String password) throws NoSuchAlgorithmException {
 		  ModelAndView logmv = new ModelAndView("login");
@@ -55,16 +63,11 @@ public class LoginController {
 		}
 		
 		boolean isValidUser = loginService.validated(userId, password);
-       System.out.println("logged in"+isValidUser);
- 
    
 		if (!isValidUser) {
 			model.put("errorMessage", "社員番号とパスワードが一致しません");
 			return logmv;
 		}
-		
-	
-    //  pageControlService.setUserId(userId);
       session.setAttribute("userId", userId);
       session.setAttribute("isLoggedIn", true);
      
@@ -72,24 +75,29 @@ public class LoginController {
 		  
 		if(!userDataService.isAdmin(userId))
 			role="user";
-		//pageControlService.setRole(role);
+		
 		session.setAttribute("role", role);
 		model.addAttribute("userId",userId);
 		 return new ModelAndView("redirect:/user_information", model);
 		
 	}
 	
-
+	
+	
+//  In case for forgot password, rescure function
+// Helper JavaMailSenderConf used(EmailControlService)
 
 	@RequestMapping(value = "/login/recover", method = RequestMethod.GET)
-	public String recoverPassword(ModelMap model) {
+	public String passwordRecoverView(ModelMap model) {
 		session.setAttribute("isVisit", true);
 		return "recover_pass";
 		
 	}
 
+	// Password Recover operation 
+	
 	@RequestMapping(value = "/login/recover", method = RequestMethod.POST)
-	public String recoverPassword(ModelMap model, @RequestParam String userEmail) {
+	public String recoverPasswordOperation(ModelMap model, @RequestParam String userEmail) {
        if(session.getAttribute("isVisit")==null) return "redirect:/login";
 		String userId= mailService.getUserIdByEmail(userEmail);
 		mailService.sendEmail(userEmail,userId);
@@ -103,6 +111,7 @@ public class LoginController {
 	}
 	
 	
+	// Logout Method 
 	
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
 	public String logout() {

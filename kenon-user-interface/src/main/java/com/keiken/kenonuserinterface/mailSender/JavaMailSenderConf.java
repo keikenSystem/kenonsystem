@@ -11,6 +11,8 @@ import com.keiken.kenonuserinterface.repository.RepoUser;
 import com.keiken.kenonuserinterface.service.EmailControlService;
 import com.keiken.kenonuserinterface.service.UserDataService;
 
+//Service for create Email message and  send Email to defined email id
+
 @Service
 public class JavaMailSenderConf {
 
@@ -22,11 +24,9 @@ public class JavaMailSenderConf {
 	
 	@Autowired
 	 JavaMailSender javaMailSender;
-
-
-	public String getUserIdByEmail(String mail) {
-		return emailControlService.getUserIdByEmailId(mail);
-	}
+	
+	
+  //Arguments Email id, and userId
 
 	public void sendEmail(String mail, String userId) {
 

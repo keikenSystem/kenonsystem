@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>kenon</title>
@@ -16,20 +17,28 @@
 	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
 	crossorigin="anonymous"></script>
 </head>
+
+
 <body class="container-fluid">
 
-	<nav style="background-color: #DCDCDC" class="m-3">
-			<div class="d-inline-block p-3">
-			<a href="#">kenon</a>
+<!-- ---------------------------Nav bar ---------------------- -->
+
+	<nav style="background-color: #DCDCDC" class="m-3 h4">
+		<div class="d-inline-block p-3 font-weight-bold">
+			<a href="/kenon/password_reset"><img
+					alt="" src="icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
 			<a href="/kenon/logout">ログアウト</a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
-			<a style="color:black" href="/kenon/password_reset">パスワード変更</a>
+			<a style="color: black" href="/kenon/password_reset">パスワード変更</a>
 		</div>
 
 	</nav>
+
+
+<!-- ------------------------------------Passowrd reset form ---------------------- -->
 
 
 	<form action="/kenon/password_reset" method="post" class="pl-3">
@@ -50,16 +59,12 @@
 		<div class="form-group pt-1">
 
 			<label for="confirm_password">パスワード（確認用）</label> <input
-				type="password" class="form-control" name="confirmPassword" id="confirm_password">
+				type="password" class="form-control" name="confirmPassword"
+				id="confirm_password">
 		</div>
 
 		<button type="submit" class="btn btn-primary form-control">パスワード変更</button>
 
 	</form>
-
-
-
-
-
 </body>
 </html>
