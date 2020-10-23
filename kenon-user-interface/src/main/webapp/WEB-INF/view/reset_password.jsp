@@ -26,7 +26,7 @@
 	<nav style="background-color: #DCDCDC" class="m-3 h4">
 		<div class="d-inline-block p-3 font-weight-bold">
 			<a href="/kenon/password_reset"><img
-					alt="" src="icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
+					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png"" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
 			<a href="/kenon/logout">ログアウト</a>

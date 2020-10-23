@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +27,8 @@
 	<nav style="background-color: #DCDCDC" class="m-3 h4 ">
 		<div class="d-inline-block p-3 font-weight-bold">
 			
-			<a href="/kenon/user_information"><img
-					alt="" src="icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
+			<a href="/kenon/<%=request.getAttribute("role")%>/user_information"><img
+					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		
 <!-- -------------------Jsp for controlling  admin  ----------------->

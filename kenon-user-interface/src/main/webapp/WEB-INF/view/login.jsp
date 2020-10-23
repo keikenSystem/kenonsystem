@@ -28,7 +28,7 @@
 	<nav class="navbar" style="background-color: #DCDCDC">
 		<ul class="navbar-nav font-weight-bold h4">
 			<li class="nav-item"><a href="/kenon/login" class="nav-link"><img
-					alt="" src="../icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">kenon</span></a></li>
+					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">kenon</span></a></li>
 		</ul>
 
 	</nav>

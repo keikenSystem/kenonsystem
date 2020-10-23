@@ -21,7 +21,7 @@
 	<nav class="navbar h4" style="background-color: #DCDCDC">
 	<div class="d-inline-block p-3 font-weight-bold">
 			<a href="/kenon/login"><img
-					alt="" src="../icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
+					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png"" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 
 	</nav>
