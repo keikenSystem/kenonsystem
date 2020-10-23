@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class CustomValidator {
 	
 	
-	//Size should be 6 to 50
+	//Password length size should be 6 to 50
 	
 	
 	

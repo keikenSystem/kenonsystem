@@ -30,13 +30,13 @@ public class InputDataController {
 	//To Control admin input data
 	
 	@RequestMapping(value = "/admin/user_information", method = RequestMethod.GET)
-	public String showInfoInputPage(ModelMap model,HttpSession session) {
+	public String showAdminInfoInputPage(ModelMap model,HttpSession session) {
 		
 				
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");	
-		if(role==null||role.equals("user")||session.getAttribute("isLoggedIn")==null){
+		if(role==null||session.getAttribute("isLoggedIn")==null){
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
@@ -45,7 +45,30 @@ public class InputDataController {
 
 
 		model.put("lastUsedDate",userDataService.getLastUsedDateText(userSession));
-		model.put("userName", userDataService.getName());
+		model.put("userName", userDataService.findName(userSession));
+		model.put("userId", userSession);
+		model.put("role", role);
+		return "insert_info";
+	
+	}
+	
+	@RequestMapping(value = "/user/user_information", method = RequestMethod.GET)
+	public String showUserInfoInputPage(ModelMap model,HttpSession session) {
+		
+				
+		String userSession = (String) session.getAttribute("userId");
+
+		String role = (String) session.getAttribute("role");	
+		if(role==null||session.getAttribute("isLoggedIn")==null){
+			session.removeAttribute("userId");
+			session.removeAttribute("role");
+			session.removeAttribute("isLoggedIn");
+			return "redirect:/login";
+		}
+
+
+		model.put("lastUsedDate",userDataService.getLastUsedDateText(userSession));
+		model.put("userName", userDataService.findName(userSession));
 		model.put("userId", userSession);
 		model.put("role", role);
 		return "insert_info";
@@ -72,8 +95,8 @@ public class InputDataController {
 		model.addAttribute("userId", userId);
 		model.addAttribute("role", role);
 		model.put("lastUsedDate",userDataService.getLastUsedDateText(userId));
-		model.put("userName", userDataService.getName());
-		model.put(userId, userId);
+		model.put("userName", userDataService.findName(userId));
+		model.put("userId", userId);
 		return "insert_info";
 	
 	}
