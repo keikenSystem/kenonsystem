@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 @Table(name = "m_user_temparature")
 public class TemperatureAndSymtomsMesurement {
@@ -19,7 +21,9 @@ public class TemperatureAndSymtomsMesurement {
 	@Id
 	@Column(name = "社員番号", nullable = false)
 	private String userId;
+	
 	@Column(name = "更新日時", nullable = false)
+	@UpdateTimestamp
 	private Timestamp lastUsedTime;
 
 	public double getTemperature() {

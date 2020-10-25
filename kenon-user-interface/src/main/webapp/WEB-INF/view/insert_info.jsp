@@ -46,7 +46,7 @@
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 					<li><a href="/kenon/admin/user_information/">体調の入力</a></li>
-					<li><a href="/kenon/admin/add_user">ユーザの取り込み</a></li>
+					<li><a href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
 					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
 					</ul>
 			</div>

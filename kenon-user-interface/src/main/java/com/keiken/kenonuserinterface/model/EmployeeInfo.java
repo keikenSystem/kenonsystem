@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 @Entity
 @Table(name = "m_user")
@@ -22,20 +25,22 @@ public class EmployeeInfo {
 	@Column(name = "社員番号", nullable = false)
 	private String userId;
 	
-	@Column(name="メールアドレス",nullable= false)
+	@Column(name="mail",nullable= false)
 	private String email;
 	
 	@Column(name = "部門", nullable = false)
 	private String department;
 	
 	@Column(name = "作成日時", nullable = false)
+	@CreationTimestamp
 	private Timestamp createDate;
 
 	@Column(name = "更新日時", nullable = false)
+	@UpdateTimestamp
 	private Timestamp lastUsedDate;
 	
 	@Column(name = "管理権限", nullable = false)
-	private boolean admin;
+	private boolean isAdmin;
 
 	
 	public String getEmail() {
@@ -46,12 +51,14 @@ public class EmployeeInfo {
 		this.email = email;
 	}
 
+	
+
 	public boolean isAdmin() {
-		return admin;
+		return isAdmin;
 	}
 
-	public void setRole(boolean admin) {
-		this.admin = admin;
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	public String getFullName() {

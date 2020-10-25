@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.keiken.kenonuserinterface.service.TemperatureDataService;
 import com.keiken.kenonuserinterface.service.UserDataService;
 
 /* This controller used to control request for insert information user page  */
@@ -25,7 +26,8 @@ public class InputDataController {
 
 	@Autowired
 	UserDataService userDataService;
-	
+	@Autowired
+	private TemperatureDataService tempDataService;
 	
 	//To Control admin input data
 	
@@ -44,7 +46,8 @@ public class InputDataController {
 		}
 
 
-		model.put("lastUsedDate",userDataService.getLastUsedDateText(userSession));
+	
+		model.put("lastUsedDate",tempDataService.getLastUsedDateText(userSession));
 		model.put("userName", userDataService.findName(userSession));
 		model.put("userId", userSession);
 		model.put("role", role);
@@ -67,7 +70,7 @@ public class InputDataController {
 		}
 
 
-		model.put("lastUsedDate",userDataService.getLastUsedDateText(userSession));
+		model.put("lastUsedDate",tempDataService.getLastUsedDateText(userSession));
 		model.put("userName", userDataService.findName(userSession));
 		model.put("userId", userSession);
 		model.put("role", role);
@@ -94,7 +97,7 @@ public class InputDataController {
 		
 		model.addAttribute("userId", userId);
 		model.addAttribute("role", role);
-		model.put("lastUsedDate",userDataService.getLastUsedDateText(userId));
+		model.put("lastUsedDate",tempDataService.getLastUsedDateText(userId));
 		model.put("userName", userDataService.findName(userId));
 		model.put("userId", userId);
 		return "insert_info";

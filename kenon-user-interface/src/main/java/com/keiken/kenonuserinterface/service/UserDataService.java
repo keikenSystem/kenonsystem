@@ -32,22 +32,7 @@ public class UserDataService {
 		
 	}
 	
-	// find Date in string  to set into the user information form 
-	
-	public String getLastUsedDateText(String userId) {
-		EmployeeInfo employeeData =  userDataRepo.findById(userId).get();
-		Timestamp lastTimeStamp = employeeData.getLastUsedDate();
-		int year = lastTimeStamp.getYear();
-		int month = lastTimeStamp.getMonth();
-		int date = lastTimeStamp.getDate();
-		int hour = lastTimeStamp.getHours();
-		int min = lastTimeStamp.getMinutes();
-		int sec = lastTimeStamp.getSeconds();
-		String name = employeeData.getFullName();
-		
-		return String.valueOf(year)+"年"+String.valueOf(month)+"月"+String.valueOf(date)+"日"+String.valueOf(hour)+"時"+String.valueOf(min)+"分"+String.valueOf(sec)+"秒　使新";
-		
-	}
+
 
 // find Full name to set into the user information form 
 	
