@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 
 @Entity
@@ -107,6 +108,12 @@ public class EmployeeInfo {
 
 	public void setLastUsedDate(Timestamp lastUsedDate) {
 		this.lastUsedDate = lastUsedDate;
+	}
+
+	@Override
+	public String toString() {
+		return "EmployeeInfo [fullName=" + fullName + ", fullNameInKata=" + fullNameInKata + ", userId=" + userId
+				+ ", email=" + email + ", department=" + department + ", isAdmin=" + isAdmin + "]";
 	}
 
 }

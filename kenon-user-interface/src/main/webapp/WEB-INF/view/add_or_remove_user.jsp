@@ -22,7 +22,7 @@
 	<nav style="background-color: #DCDCDC" class="m-3 h4 ">
 		<div class="d-inline-block p-3 font-weight-bold">
 			
-			<a href="/kenon/admin/add_or_modify_user"><img
+			<a href="/kenon/admin/add_or_remove_user"><img
 					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		
@@ -39,7 +39,7 @@
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 					<li><a href="/kenon/admin/user_information/">体調の入力</a></li>
-					<li><a href="/kenon/admin/add_or_modify_user">ユーザの取り込み</a></li>
+					<li><a href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
 					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
 					</ul>
 			</div>
@@ -60,12 +60,12 @@
  
  
 
-<form method="post" action="/kenon/admin/admin/add_or_remove_user" class="pl-3 m-4" style="font-size: 13px">
+<form method="post" action="/kenon/admin/add_or_remove_user" class="pl-3 m-4" style="font-size: 13px">
 		<div class="pt-3">
 			<h4>ユーザの取り込む</h4>
 		</div>
 		<div class="form-group pt-3">
-				<a href="#" class="btn btn-primary">登録用最新ファイル</a>
+				<a href="/data/userlist.xlsx" class="btn btn-primary" download="userlist.xlsx">登録用最新ファイル</a>
 		</div>
 	
 	
