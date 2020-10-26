@@ -15,14 +15,14 @@ public class TemperatureAndSymtomsMesurement {
 
 	@Column(name = "体温", nullable = false)
 	private double temperature;
-	@Column(name = "症状の有無", nullable = false)
+	@Column(name = "症状の有無")
 	private boolean gotSymtoms;
 
 	@Id
 	@Column(name = "社員番号", nullable = false)
 	private String userId;
 	
-	@Column(name = "更新日時", nullable = false)
+	@Column(name = "更新日時")
 	@UpdateTimestamp
 	private Timestamp lastUsedTime;
 

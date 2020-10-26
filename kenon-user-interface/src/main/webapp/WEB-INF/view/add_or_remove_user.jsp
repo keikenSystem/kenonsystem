@@ -60,7 +60,7 @@
  
  
 
-<form method="post" action="/kenon/admin/add_or_remove_user" class="pl-3 m-4" style="font-size: 13px">
+<form method="post" action="/kenon/admin/add_or_remove_user" class="pl-3 m-4" style="font-size: 13px" enctype="multipart/form-data">
 		<div class="pt-3">
 			<h4>ユーザの取り込む</h4>
 		</div>
@@ -68,11 +68,15 @@
 				<a href="/data/userlist.xlsx" class="btn btn-primary" download="userlist.xlsx">登録用最新ファイル</a>
 		</div>
 	
+	  <div class="form-group">
+    <label for="importedFile">登録用最新ファイル</label>
+    <input type="file" class="form-control-file" value="ファイルを選択" id="importedFile" name="importedFile">
+  </div>
+	<div class="form-group pt-3">
+			<input type="text" class="form-control" 
+				value="情報を変更する前に登録用最新ファイルをDLしてください" disabled style="background-color:#ffcccb"/>
 	
-	<input type="file" name="file">
-	
-	
-	<input type="submit" class="form-control btn btn-primary"  value="ユーザの取り込む"/>
+	<input type="submit" class="form-control btn btn-primary mt-3"  value="ユーザの取り込む"/>
 	</form>
 
 
