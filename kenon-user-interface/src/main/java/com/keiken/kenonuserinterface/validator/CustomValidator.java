@@ -1,5 +1,9 @@
 package com.keiken.kenonuserinterface.validator;
 
+import java.util.regex.Pattern;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -31,31 +35,51 @@ public class CustomValidator {
 	}
 
 	public String checkEmailFormat(String stringCellValue) {
-		
+		String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+		 Pattern pattern = Pattern.compile(regex);
+		 if(pattern.matcher(stringCellValue).matches())
 		return "";
+		 else return  "Email format error";
 	}
 
-	public String checkUserPasswordFormat(String stringCellValue, String stringCellValue2) {
-		// TODO Auto-generated method stub
-		if(login.checkUserIdExistOrNot(stringCellValue))
-			if(!stringCellValue2.equals("")) {
-				return "can't change password of registerd user";
-			}
-		
-		return "";
-	}
 
 	public String checkBoolean(boolean booleanCellValue) {
-		// TODO Auto-generated method stub
+		
 		
 		return "";
 	}
+	public String checkBoolean(String booleanCellValue) {
+		// TODO Auto-generated method stub
+		
+		
+		return "Administator value should be true/false";
+	}
+
+	public String checkUserPasswordFormat(XSSFCell cell, XSSFCell cell2) {
+		if(login.checkUserIdExistOrNot(cell.getStringCellValue())) {
+			if(cell2!=null&&!cell2.getStringCellValue().equals("")) {
+				System.out.println(cell2.getStringCellValue());
+				return "can't change password of registerd user";
+			}
+		}
+		else {
+			
+		if(cell2==null||cell2.getStringCellValue().length()<6||cell2.getStringCellValue().length()>50) {
+			return "password length should be 6 to 50";
+		}
+		
+		}
+		
+		
+		return "";
+	}
+}
 	
+
+
 	
 	//Password length size should be 6 to 50
 	
 	
 	
 	
-
-}

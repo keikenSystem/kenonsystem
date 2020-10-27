@@ -61,16 +61,16 @@ return"add_or_remove_user";
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
-		//String errorCheck= adminOperationService.hasError(readExcelData);
-		//if(errorCheck==null) {
+		String errorCheck= adminOperationService.hasError(readExcelData);
+		if(errorCheck=="") {
 			adminOperationService.addUserOrmodifyUser(readExcelData);
 			System.out.println("operation successfull");
-		//}
-		//else 
-		//{
-			//model.put("errorMessage",errorCheck);
+		}
+		else 
+		{
+			model.put("errorMessage","ERROR <br>"+errorCheck);
 			System.out.println("operation error");
-		//}
+		}
 			
 	
 		

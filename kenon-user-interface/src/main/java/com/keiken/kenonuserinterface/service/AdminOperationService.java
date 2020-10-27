@@ -2,13 +2,12 @@ package com.keiken.kenonuserinterface.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -285,6 +284,9 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 			
 			for (int i = 0; i < worksheet.getPhysicalNumberOfRows(); i++) {
 				XSSFRow row = worksheet.getRow(i);
+				if(row==null)
+					return "row should not be blank for row "+(i+1);
+				
 				if(i==0) {
 					if(row.getCell(0).getStringCellValue().equals(headers[0])
 							&&
@@ -300,6 +302,7 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 							&&
 							row.getCell(6).getStringCellValue().equals(headers[6])
 							) {
+						System.out.println("Column is fine");
 						
 					}
 					else {
@@ -311,59 +314,61 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 				}
 				else {
 					
-					if(row.getCell(0).getStringCellValue()!=null)
+					if(row.getCell(0)!=null&&row.getCell(0).getCellType()!=Cell.CELL_TYPE_BLANK)
 					errorCollector = isValid.checkUserId(row.getCell(0).getStringCellValue());
 					else 
-						return "user id can't be null";
+						return "user id can't be null "+"at "+"row "+(i+1);
 					if(errorCollector!="")
 						return 
-								errorCollector+" for "+row.getCell(0).getStringCellValue();
+								errorCollector+" for "+row.getCell(0).getStringCellValue()+"at "+"row "+(i+1);
 					
-					if(row.getCell(1).getStringCellValue()!=null)
+					if(row.getCell(1)!=null&&row.getCell(1).getCellType()!=Cell.CELL_TYPE_BLANK)
 					errorCollector = isValid.checkUserNameFormat(row.getCell(1).getStringCellValue());
 					else 
-						return "user name can't be null";
+						return "user name can't be null "+"at "+"row "+(i+1);;
 					if(errorCollector!="")
 						return 
-								errorCollector+" for "+row.getCell(1).getStringCellValue();
+								errorCollector+" for "+row.getCell(1).getStringCellValue()+"at "+"row "+(i+1);
 					
-					if(row.getCell(2).getStringCellValue()!=null)
+					if(row.getCell(2)!=null&&row.getCell(2).getCellType()!=Cell.CELL_TYPE_BLANK)
 					errorCollector = isValid.checkUserNameFormat(row.getCell(2).getStringCellValue());
 					else 
-						return "user name katakana can't be null";
+						return "user name katakana can't be null "+"at "+"row "+(i+1);
 					if(errorCollector!="")
 						return 
-								errorCollector+" for "+row.getCell(2).getStringCellValue();
+								errorCollector+" for "+row.getCell(2).getStringCellValue()+"at "+"row "+(i+1);
 					
-					if(row.getCell(3).getStringCellValue()!=null)
+					if(row.getCell(3)!=null&&row.getCell(3).getCellType()!=Cell.CELL_TYPE_BLANK)
 					errorCollector = isValid.checkUserNameFormat(row.getCell(3).getStringCellValue());
 					else 
-						return "department name can't be null";
+						return "department name can't be null "+"at "+"row "+(i+1);
 					if(errorCollector!="")
 						return 
-								errorCollector+" for "+row.getCell(3).getStringCellValue();
+								errorCollector+" for "+row.getCell(3).getStringCellValue()+"at "+"row "+(i+1);
 					
-					if(row.getCell(4).getStringCellValue()!=null)
+					if(row.getCell(4)!=null&&row.getCell(4).getCellType()!=Cell.CELL_TYPE_BLANK)
 					errorCollector = isValid.checkEmailFormat(row.getCell(4).getStringCellValue());
 					else 
-						return "Email can't be null";
+						return "Email can't be null at"+"row "+(i+1);
 					if(errorCollector!="")
 						return 
-							errorCollector+" for "+row.getCell(4).getStringCellValue();
+							errorCollector+" for "+row.getCell(4).getStringCellValue()+"at "+"row "+(i+1);
 					
 					
-					errorCollector = isValid.checkUserPasswordFormat(row.getCell(0).getStringCellValue(),row.getCell(5).getStringCellValue());
+					errorCollector = isValid.checkUserPasswordFormat(row.getCell(0),row.getCell(5));
 					if(errorCollector!="")
 						return 
-								errorCollector+" for "+row.getCell(5).getStringCellValue();
+								errorCollector+" for "+"row "+(i+1);
 					
-					if(row.getCell(6).getStringCellValue()!=null)
+					if(row.getCell(6)!=null&&row.getCell(6).getCellType()!=Cell.CELL_TYPE_BLANK)
 					errorCollector = isValid.checkBoolean(row.getCell(6).getBooleanCellValue());
-					else 
-						return "Administrator can't be null";
+					else {
+						System.out.println(row.getCell(6).CELL_TYPE_BOOLEAN);
+						return "Administrator can't be null and value must be TRUE or FALSE "+"at "+"row "+(i+1);
+					}
 					if(errorCollector!="")
 						return 
-								errorCollector+" for "+row.getCell(6).getBooleanCellValue();
+								errorCollector+" for "+row.getCell(6).getBooleanCellValue()+"at "+"row "+(i+1);
 			
 					
 					
@@ -376,6 +381,7 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			return "value type error";
 		
 		}
 
