@@ -1,5 +1,7 @@
 package com.keiken.kenonuserinterface.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -18,9 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.keiken.kenonuserinterface.model.EmployeeInfo;
 import com.keiken.kenonuserinterface.model.RegistrationInfo;
+import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
+import com.keiken.kenonuserinterface.repository.RepoTemperatureAndSymtomsOperation;
 import com.keiken.kenonuserinterface.repository.RepoUser;
 import com.keiken.kenonuserinterface.repository.RepoUserLoginOperation;
 import com.keiken.kenonuserinterface.security.PasswordEncoder;
+import com.keiken.kenonuserinterface.validator.CustomValidator;
 
 @Service
 public class AdminOperationService {
@@ -29,6 +33,11 @@ public class AdminOperationService {
 
 	@Autowired
 	RepoUserLoginOperation repoUserLoginOperation;
+	
+	@Autowired
+	RepoTemperatureAndSymtomsOperation repoTemperatureAndSymtomsOperation;
+	@Autowired
+	CustomValidator isValid;
 	
 public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -39,7 +48,7 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 	PasswordEncoder passEncoder;
 
 	// Read data from db
-	public void readDataFromDBandDownload(String filePath) throws FileNotFoundException, IOException {
+	public ByteArrayInputStream readDataFromDBandDownload() {
 
 		ArrayList<EmployeeInfo> userList = new ArrayList<EmployeeInfo>();
 		System.out.println("reading database value");
@@ -47,14 +56,14 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 		String[] headers = { "社員番号", "氏名", "カナ氏名", "部門", "mail", "パスワード", "管理権限" };
 
 		userList = (ArrayList<EmployeeInfo>) repoUser.findAll();
-		writeExcel(userList, headers, filePath);
+		return writeExcel(userList, headers);
 
 	}
 	// Write database data to excel
 
-	public void writeExcel(ArrayList<EmployeeInfo> userList, String headers[], String pathName)
-			throws FileNotFoundException, IOException {
-		XSSFWorkbook workbook = new XSSFWorkbook();
+	public ByteArrayInputStream writeExcel(ArrayList<EmployeeInfo> userList, String headers[]){
+		
+		try (XSSFWorkbook workbook = new XSSFWorkbook()){
 		XSSFSheet sheet = workbook.createSheet("user_list");
 
 		int rowCount = 0;
@@ -74,10 +83,26 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 			row.createCell(6).setCellValue(user.isAdmin());
 
 		}
-
-		try (FileOutputStream outputStream = new FileOutputStream(pathName)) {
+		
+		sheet.autoSizeColumn(0);
+		sheet.autoSizeColumn(1);
+		sheet.autoSizeColumn(2);
+		sheet.autoSizeColumn(3);
+		sheet.autoSizeColumn(4);
+		sheet.autoSizeColumn(5);
+		sheet.autoSizeColumn(6);
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		
 			workbook.write(outputStream);
+			return new ByteArrayInputStream(outputStream.toByteArray());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
+	
+		
 
 	}
 
@@ -125,7 +150,6 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 				&& row.getCell(2).getStringCellValue().equals(user.getFullNameInKata())
 				&& row.getCell(3).getStringCellValue().equals(user.getDepartment())
 				&& row.getCell(4).getStringCellValue().equals(user.getEmail())
-				&& row.getCell(5).getStringCellValue().equals("")
 				&& row.getCell(6).getBooleanCellValue() == user.isAdmin())
 			return true;
 
@@ -162,12 +186,16 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 	private void addUserToDb(String key, int value) throws IOException {
 		// TODO Auto-generated method stub
 		EmployeeInfo user = new EmployeeInfo();
+		RegistrationInfo registedUser = new RegistrationInfo();
+		TemperatureAndSymtomsMesurement tmData = new TemperatureAndSymtomsMesurement();
+		
 		XSSFWorkbook workbook = new XSSFWorkbook(readExcelData.getInputStream());
 		XSSFSheet worksheet = workbook.getSheet("user_list");
 		XSSFRow row = worksheet.getRow(value);
 		// 社員番号,氏名,カナ氏名,部門,mail,パスワード,管理権限
 
-		RegistrationInfo registedUser = new RegistrationInfo();
+	
+		
 
 		user.setUserId(row.getCell(0).getStringCellValue());
 		user.setFullName(row.getCell(1).getStringCellValue());
@@ -175,13 +203,18 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 		user.setDepartment(row.getCell(3).getStringCellValue());
 		user.setEmail(row.getCell(4).getStringCellValue());
 		user.setAdmin(row.getCell(6).getBooleanCellValue());
+		repoUser.save(user);
+		
 		registedUser.setUserId(row.getCell(0).getStringCellValue());
 		registedUser.setPassword(passEncoder.encodedPassword(row.getCell(5).getStringCellValue()));
 		registedUser.setToken("");
-		repoUser.save(user);
 		repoUserLoginOperation.save(registedUser);
+		
+		tmData.setUserId(key);
+		
+		repoTemperatureAndSymtomsOperation.save(tmData);
 
-	}
+}
 	private boolean hasExcelFormat(MultipartFile file) {
 
 	        if (!TYPE.equals(file.getContentType())) {
@@ -233,6 +266,122 @@ public static String TYPE = "application/vnd.openxmlformats-officedocument.sprea
 			System.out.println("user id "+id.getKey()+" "+"added succefully");
 		}
 
+	}
+
+	public String hasError(MultipartFile readExcelData2) {
+		
+		String[] headers = { "社員番号", "氏名", "カナ氏名", "部門", "mail", "パスワード", "管理権限" };
+		String errorCollector="";
+		if(!hasExcelFormat(readExcelData2)) {
+			errorCollector="file type error ";
+		}
+		if(!errorCollector.equals(""))
+			return errorCollector;
+		
+		XSSFWorkbook workbook;
+		try {
+			workbook = new XSSFWorkbook(readExcelData2.getInputStream());
+			XSSFSheet worksheet = workbook.getSheet("user_list");
+			
+			for (int i = 0; i < worksheet.getPhysicalNumberOfRows(); i++) {
+				XSSFRow row = worksheet.getRow(i);
+				if(i==0) {
+					if(row.getCell(0).getStringCellValue().equals(headers[0])
+							&&
+							row.getCell(1).getStringCellValue().equals(headers[1])
+							&&
+							row.getCell(2).getStringCellValue().equals(headers[2])
+							&&
+							row.getCell(3).getStringCellValue().equals(headers[3])
+							&&
+							row.getCell(4).getStringCellValue().equals(headers[4])
+							&&
+							row.getCell(5).getStringCellValue().equals(headers[5])
+							&&
+							row.getCell(6).getStringCellValue().equals(headers[6])
+							) {
+						
+					}
+					else {
+		errorCollector ="column name error";
+						
+						return errorCollector;
+					}
+						
+				}
+				else {
+					
+					if(row.getCell(0).getStringCellValue()!=null)
+					errorCollector = isValid.checkUserId(row.getCell(0).getStringCellValue());
+					else 
+						return "user id can't be null";
+					if(errorCollector!="")
+						return 
+								errorCollector+" for "+row.getCell(0).getStringCellValue();
+					
+					if(row.getCell(1).getStringCellValue()!=null)
+					errorCollector = isValid.checkUserNameFormat(row.getCell(1).getStringCellValue());
+					else 
+						return "user name can't be null";
+					if(errorCollector!="")
+						return 
+								errorCollector+" for "+row.getCell(1).getStringCellValue();
+					
+					if(row.getCell(2).getStringCellValue()!=null)
+					errorCollector = isValid.checkUserNameFormat(row.getCell(2).getStringCellValue());
+					else 
+						return "user name katakana can't be null";
+					if(errorCollector!="")
+						return 
+								errorCollector+" for "+row.getCell(2).getStringCellValue();
+					
+					if(row.getCell(3).getStringCellValue()!=null)
+					errorCollector = isValid.checkUserNameFormat(row.getCell(3).getStringCellValue());
+					else 
+						return "department name can't be null";
+					if(errorCollector!="")
+						return 
+								errorCollector+" for "+row.getCell(3).getStringCellValue();
+					
+					if(row.getCell(4).getStringCellValue()!=null)
+					errorCollector = isValid.checkEmailFormat(row.getCell(4).getStringCellValue());
+					else 
+						return "Email can't be null";
+					if(errorCollector!="")
+						return 
+							errorCollector+" for "+row.getCell(4).getStringCellValue();
+					
+					
+					errorCollector = isValid.checkUserPasswordFormat(row.getCell(0).getStringCellValue(),row.getCell(5).getStringCellValue());
+					if(errorCollector!="")
+						return 
+								errorCollector+" for "+row.getCell(5).getStringCellValue();
+					
+					if(row.getCell(6).getStringCellValue()!=null)
+					errorCollector = isValid.checkBoolean(row.getCell(6).getBooleanCellValue());
+					else 
+						return "Administrator can't be null";
+					if(errorCollector!="")
+						return 
+								errorCollector+" for "+row.getCell(6).getBooleanCellValue();
+			
+					
+					
+				}
+				
+		
+
+			}
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		
+		}
+
+
+
+		return "";
 	}
 
 }

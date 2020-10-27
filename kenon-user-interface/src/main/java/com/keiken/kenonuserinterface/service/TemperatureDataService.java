@@ -14,22 +14,28 @@ import com.keiken.kenonuserinterface.repository.RepoTemperatureAndSymtomsOperati
 @Service
 public class TemperatureDataService {
 
-	// find Date in string  to set into the user information form 
+	// find Date in string to set into the user information form
 	@Autowired
 	RepoTemperatureAndSymtomsOperation tempRepo;
-	
+
 	public String getLastUsedDateText(String userId) {
-		TemperatureAndSymtomsMesurement tempData =  tempRepo.findById(userId).get();
-		Timestamp lastTimeStamp = tempData.getLastUsedTime();
-	
-		int year = lastTimeStamp.getYear();
-		int month = lastTimeStamp.getMonth();
-		int date = lastTimeStamp.getDate();
-		int hour = lastTimeStamp.getHours();
-		int min = lastTimeStamp.getMinutes();
-		int sec = lastTimeStamp.getSeconds();
-		System.out.println(year);
-		return String.valueOf(1900+year)+"年"+String.valueOf(month+1)+"月"+String.valueOf(date)+"日"+String.valueOf(hour)+"時"+String.valueOf(min)+"分"+String.valueOf(sec)+"秒　使新";
 		
+		try {	
+			TemperatureAndSymtomsMesurement tempData = tempRepo.findById(userId).get();
+		
+			Timestamp lastTimeStamp = tempData.getLastUsedTime();
+
+			int year = lastTimeStamp.getYear();
+			int month = lastTimeStamp.getMonth();
+			int date = lastTimeStamp.getDate();
+			int hour = lastTimeStamp.getHours();
+			int min = lastTimeStamp.getMinutes();
+			int sec = lastTimeStamp.getSeconds();
+			System.out.println(year);
+			return String.valueOf(1900 + year) + "年" + String.valueOf(month + 1) + "月" + String.valueOf(date) + "日"
+					+ String.valueOf(hour) + "時" + String.valueOf(min) + "分" + String.valueOf(sec) + "秒　使新";
+		} catch (Exception e) {
+			return "never insert temperature yet";
+		}
 	}
 }

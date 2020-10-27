@@ -1,10 +1,14 @@
 package com.keiken.kenonuserinterface.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.apache.xmlbeans.impl.common.IOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,13 +21,12 @@ import com.keiken.kenonuserinterface.service.AdminOperationService;
 
 @Controller
 public class AdminOperationController {
-	
-	
+
 	@Autowired
 	AdminOperationService adminOperationService;
-	
-	//Get method for add or remove user
-	
+
+	// Get method for add or remove user
+
 	@RequestMapping(value="admin/add_or_remove_user",method =RequestMethod.GET )
 	public String showUpdateUserView(ModelMap model,HttpSession session, HttpServletRequest request) {
 		
@@ -37,17 +40,14 @@ public class AdminOperationController {
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
-		try {
-			adminOperationService.readDataFromDBandDownload("data/userlist.xlsx");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "add_or_remove_user";
+	
+			
+return"add_or_remove_user";
+
 	}
-	
-	//show view of add or remove user
-	
+
+	// show view of add or remove user
+
 	@RequestMapping(value="/admin/add_or_remove_user",method =RequestMethod.POST)
 	public String showUpdateUserOperation(ModelMap model,HttpSession session,@RequestParam("importedFile") MultipartFile readExcelData) throws IOException {
 		
@@ -61,17 +61,33 @@ public class AdminOperationController {
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
+		//String errorCheck= adminOperationService.hasError(readExcelData);
+		//if(errorCheck==null) {
+			adminOperationService.addUserOrmodifyUser(readExcelData);
+			System.out.println("operation successfull");
+		//}
+		//else 
+		//{
+			//model.put("errorMessage",errorCheck);
+			System.out.println("operation error");
+		//}
+			
+	
 		
-		adminOperationService.addUserOrmodifyUser(readExcelData);
 		
-		System.out.println("operation successfull");
+		
+		
 		return "add_or_remove_user";
 	}
-	
-	
-	
+
+	@RequestMapping(value = "admin/download/userlist.xlsx", method = RequestMethod.GET)
+	public void downloadUserListExcelFile(HttpServletResponse response) throws IOException {
+
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment; filename=user_list.xlsx");
+		ByteArrayInputStream stream = adminOperationService.readDataFromDBandDownload();
+		IOUtils.copy(stream, response.getOutputStream());
+
+	}
 
 }
-
-
-

@@ -13,16 +13,17 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name = "m_user_temparature")
 public class TemperatureAndSymtomsMesurement {
 
-	@Column(name = "体温", nullable = false)
+	@Column(name = "体温",nullable = true)
 	private double temperature;
-	@Column(name = "症状の有無")
+	
+	@Column(name = "症状の有無",nullable = true)
 	private boolean gotSymtoms;
 
 	@Id
 	@Column(name = "社員番号", nullable = false)
 	private String userId;
 	
-	@Column(name = "更新日時")
+	@Column(name = "更新日時",nullable = true)
 	@UpdateTimestamp
 	private Timestamp lastUsedTime;
 

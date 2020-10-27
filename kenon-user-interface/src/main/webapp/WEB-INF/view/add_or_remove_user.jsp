@@ -65,7 +65,7 @@
 			<h4>ユーザの取り込む</h4>
 		</div>
 		<div class="form-group pt-3">
-				<a href="/data/userlist.xlsx" class="btn btn-primary" download="userlist.xlsx">登録用最新ファイル</a>
+				<a href="/kenon/admin/download/userlist.xlsx" class="btn btn-primary" download="userlist.xlsx">登録用最新ファイル</a>
 		</div>
 	
 	  <div class="form-group">
@@ -75,6 +75,9 @@
 	<div class="form-group pt-3">
 			<input type="text" class="form-control" 
 				value="情報を変更する前に登録用最新ファイルをDLしてください" disabled style="background-color:#ffcccb"/>
+				
+				</div>
+				<p style="color:red"> ${errorMessage} </p>
 	
 	<input type="submit" class="form-control btn btn-primary mt-3"  value="ユーザの取り込む"/>
 	</form>
