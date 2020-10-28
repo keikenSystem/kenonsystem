@@ -59,4 +59,10 @@ public class TemperatureAndSymtomsMesurement {
 		this.lastUsedTime = lastUsedTime;
 	}
 
+	@Override
+	public String toString() {
+		return "TemperatureAndSymtomsMesurement [temperature=" + temperature + ", gotSymtoms=" + gotSymtoms
+				+ ", userId=" + userId + ", lastUsedTime=" + lastUsedTime + "]";
+	}
+
 }

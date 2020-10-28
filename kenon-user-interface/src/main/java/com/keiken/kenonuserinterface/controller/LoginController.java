@@ -22,6 +22,8 @@ import com.keiken.kenonuserinterface.service.UserDataService;
 @Controller
 public class LoginController {
 
+
+	
 	@Autowired
 	LoginService loginService;
 	
