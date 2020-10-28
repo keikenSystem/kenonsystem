@@ -15,9 +15,9 @@ public class ReminderController {
 	
 	@Autowired
 	EmailControlService emailService;
-	
-	@Scheduled(cron="0 00 10 * * ?")
-	@Scheduled(cron="0 00 12 * * ?")
+
+	@Scheduled(cron="0 00 10 ? * MON-FRI")
+	@Scheduled(cron="0 00 12 ? * MON-FRI")
 	public void reminderEmailSender() {
 		emailService.sendReminderEmail();
 	}
