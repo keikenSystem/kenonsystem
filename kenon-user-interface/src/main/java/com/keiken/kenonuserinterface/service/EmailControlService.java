@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.keiken.kenonuserinterface.mailSender.JavaMailSenderConf;
+import com.keiken.kenonuserinterface.model.DatewiseUserHandler;
 import com.keiken.kenonuserinterface.model.EmployeeInfo;
 import com.keiken.kenonuserinterface.model.RegistrationInfo;
 import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
-import com.keiken.kenonuserinterface.repository.RepoTemperatureAndSymtomsOperation;
 import com.keiken.kenonuserinterface.repository.RepoUser;
 import com.keiken.kenonuserinterface.repository.RepoUserLoginOperation;
+import com.keiken.kenonuserinterface.repository.RepoUserUpdatedTime;
 import com.keiken.kenonuserinterface.security.PasswordEncoder;
 
 @Service
@@ -25,9 +26,10 @@ public class EmailControlService {
 	private String token;
 	@Autowired
 	private RepoUserLoginOperation repoUserLoginOperation;
+	@Autowired 
+	RepoUserUpdatedTime repoUserUpdatedTime;
 
-	@Autowired
-	RepoTemperatureAndSymtomsOperation repoTemperature;
+
 	@Autowired
 	RepoUser repoUser;
 
@@ -87,10 +89,11 @@ public class EmailControlService {
 		Date currentDate = new Date();
 		System.out.println(currentDate);
 
-		List<TemperatureAndSymtomsMesurement> userUsedToday = repoTemperature.findEmailListUsedToday(currentDate);
-		Iterable<TemperatureAndSymtomsMesurement> totalUser = repoTemperature.findAll();
+		//List<TemperatureAndSymtomsMesurement> userUsedToday = repoUserUpdatedTime.findEmailListUsedToday(currentDate);
+		List<DatewiseUserHandler> userUsedToday = repoUserUpdatedTime.findEmailListUsedToday(currentDate);
+		Iterable<DatewiseUserHandler> totalUser = repoUserUpdatedTime.findAll();
 
-		for (TemperatureAndSymtomsMesurement user : totalUser) {
+		for (DatewiseUserHandler user : totalUser) {
 			if (!userUsedToday.contains(user)) {
 				EmployeeInfo getUserInfo = repoUser.findById(user.getUserId()).get();		
 				mailService.sendReminder(getUserInfo.getEmail());

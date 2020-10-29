@@ -16,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.keiken.kenonuserinterface.model.DatewiseUserHandler;
 import com.keiken.kenonuserinterface.model.EmployeeInfo;
 import com.keiken.kenonuserinterface.model.RegistrationInfo;
-import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
-import com.keiken.kenonuserinterface.repository.RepoTemperatureAndSymtomsOperation;
 import com.keiken.kenonuserinterface.repository.RepoUser;
 import com.keiken.kenonuserinterface.repository.RepoUserLoginOperation;
+import com.keiken.kenonuserinterface.repository.RepoUserUpdatedTime;
 import com.keiken.kenonuserinterface.security.PasswordEncoder;
 import com.keiken.kenonuserinterface.validator.CustomValidator;
 
@@ -34,7 +34,7 @@ public class AdminOperationService {
 	RepoUserLoginOperation repoUserLoginOperation;
 
 	@Autowired
-	RepoTemperatureAndSymtomsOperation repoTemperatureAndSymtomsOperation;
+	RepoUserUpdatedTime repoUpdatedTime;
 	@Autowired
 	CustomValidator isValid;
 
@@ -105,12 +105,12 @@ public class AdminOperationService {
 
 	// find userId from excel
 
-	private Map<String, Integer> getUserIdFromExcel(MultipartFile readExcelData) throws IOException {
+	private HashMap<String, Integer> getUserIdFromExcel(MultipartFile readExcelData) throws IOException {
 
 		if (!hasExcelFormat(readExcelData))
 			System.out.println("file error");
 
-		Map<String, Integer> userIdData = new HashMap();
+		HashMap<String, Integer> userIdData = new HashMap();
 		this.readExcelData = readExcelData;
 
 		XSSFWorkbook workbook = new XSSFWorkbook(readExcelData.getInputStream());
@@ -181,7 +181,7 @@ public class AdminOperationService {
 		// TODO Auto-generated method stub
 		EmployeeInfo user = new EmployeeInfo();
 		RegistrationInfo registedUser = new RegistrationInfo();
-		TemperatureAndSymtomsMesurement tmData = new TemperatureAndSymtomsMesurement();
+		DatewiseUserHandler tmData = new DatewiseUserHandler();
 
 		XSSFWorkbook workbook = new XSSFWorkbook(readExcelData.getInputStream());
 		XSSFSheet worksheet = workbook.getSheet("user_list");
@@ -200,10 +200,8 @@ public class AdminOperationService {
 		registedUser.setPassword(passEncoder.encodedPassword(row.getCell(5).getStringCellValue()));
 		registedUser.setToken("");
 		repoUserLoginOperation.save(registedUser);
-
 		tmData.setUserId(key);
-
-		repoTemperatureAndSymtomsOperation.save(tmData);
+		repoUpdatedTime.save(tmData);
 
 	}
 

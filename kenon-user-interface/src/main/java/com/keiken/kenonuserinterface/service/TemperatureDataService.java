@@ -1,29 +1,38 @@
 package com.keiken.kenonuserinterface.service;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.keiken.kenonuserinterface.model.EmployeeInfo;
-import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
-import com.keiken.kenonuserinterface.repository.RepoTemperatureAndSymtomsOperation;
+import com.keiken.kenonuserinterface.model.DatewiseUserHandler;
+import com.keiken.kenonuserinterface.repository.RepoUserUpdatedTime;
 
 @Service
 public class TemperatureDataService {
 
 	// find Date in string to set into the user information form
 	@Autowired
-	RepoTemperatureAndSymtomsOperation tempRepo;
+	RepoUserUpdatedTime timeRepo;
+	
+	@Autowired
+	RepoUserUpdatedTime repoUserDataService;
+	
+	
+	
 
 	public String getLastUsedDateText(String userId) {
 		
 		try {	
-			TemperatureAndSymtomsMesurement tempData = tempRepo.findById(userId).get();
+			DatewiseUserHandler timeData = timeRepo.findById(userId).get();
 		
-			Timestamp lastTimeStamp = tempData.getLastUsedTime();
+			Timestamp lastTimeStamp = timeData.getLastUsedTime();
+			//Check it this user exists in  tempareture table
+			 DatewiseUserHandler datewiseUserHandler = timeRepo.findById(userId).get();
+			 System.out.println(datewiseUserHandler.getTempAndSymtoms());
+			
+		
+			
 
 			int year = lastTimeStamp.getYear();
 			int month = lastTimeStamp.getMonth();
@@ -34,8 +43,13 @@ public class TemperatureDataService {
 			System.out.println(year);
 			return String.valueOf(1900 + year) + "年" + String.valueOf(month + 1) + "月" + String.valueOf(date) + "日"
 					+ String.valueOf(hour) + "時" + String.valueOf(min) + "分" + String.valueOf(sec) + "秒　使新";
-		} catch (Exception e) {
+		
+			}
+		catch (Exception e) {
 			return "never insert temperature yet";
 		}
+		
+		
 	}
+	
 }

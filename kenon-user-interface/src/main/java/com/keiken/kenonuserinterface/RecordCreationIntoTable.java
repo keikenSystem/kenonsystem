@@ -1,18 +1,7 @@
 package com.keiken.kenonuserinterface;
 
-import java.sql.Timestamp;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import com.keiken.kenonuserinterface.model.EmployeeInfo;
-import com.keiken.kenonuserinterface.model.RegistrationInfo;
-import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
-import com.keiken.kenonuserinterface.repository.RepoTemperatureAndSymtomsOperation;
-import com.keiken.kenonuserinterface.repository.RepoUser;
-import com.keiken.kenonuserinterface.repository.RepoUserLoginOperation;
-import com.keiken.kenonuserinterface.security.PasswordEncoder;
 
 
 

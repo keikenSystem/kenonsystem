@@ -9,7 +9,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
 
 
 @Entity
@@ -42,11 +41,13 @@ public class EmployeeInfo {
 	
 	@Column(name = "管理権限", nullable = false)
 	private boolean isAdmin;
-
+	
 	
 	public String getEmail() {
 		return email;
 	}
+
+
 
 	public void setEmail(String email) {
 		this.email = email;
