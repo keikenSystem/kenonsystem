@@ -32,7 +32,7 @@ public class TemperatureAndSymtomsMesurement implements Serializable {
 	private Timestamp lastUsedTime;
 
 	@ManyToOne()
-	@JoinColumn(name="id")
+	@JoinColumn(name="fk_user_id")
 	private DatewiseUserHandler datewiseUserHandler;
 
 	
@@ -85,6 +85,12 @@ public class TemperatureAndSymtomsMesurement implements Serializable {
 
 	public void setDatewiseUserHandler(DatewiseUserHandler datewiseUserHandler) {
 		this.datewiseUserHandler = datewiseUserHandler;
+	}
+	@Override
+	public String toString() {
+		return "TemperatureAndSymtomsMesurement [temperature=" + temperature + ", gotSymtoms=" + gotSymtoms
+				+ ", userId=" + userId + ", lastUsedTime=" + lastUsedTime + ", datewiseUserHandler="
+				+ datewiseUserHandler + "]";
 	}
 
 }

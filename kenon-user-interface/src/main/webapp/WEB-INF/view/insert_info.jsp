@@ -69,7 +69,7 @@
  
  
 
-	<form method="post" class="pl-3 m-4" style="font-size: 13px">
+	<form action="/kenon/inputdata/" class="pl-3 m-4"  style="font-size: 13px">
 		<div class="pt-3">
 			<h4>体調の入力</h4>
 		</div>
@@ -96,9 +96,9 @@
 			吐き気、嘔吐）の有無を入力してください。
 
 			<p>風症状がある場合は 所属部門長へ連絡の上、欠席の手続きをしてください。</p>
-		<select class="form-control-sm">
-			<option>無い</option>
-			<option>有</option>
+		<select class="form-control-sm" name="gotSymtom">
+			<option value="0">無い</option>
+			<option value="1">有</option>
 		</select>
 
 		<button type="submit" class="btn btn-primary form-control"
@@ -108,6 +108,13 @@
 	</form>
 
 
+  <div style="text-align:center;margin-left: 40%;margin-right: 40%;margin-bottom: 10%">
+     <div style="border:1px solid;padding:3px">
+     <p style="text-align:left">一連絡先</p>
+     <p style="text-align:left">代表：TEL　026-228-6644</p>
+  </div>
+
+</div>
 
 
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

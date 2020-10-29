@@ -29,7 +29,8 @@ public class TemperatureDataService {
 			Timestamp lastTimeStamp = timeData.getLastUsedTime();
 			//Check it this user exists in  tempareture table
 			 DatewiseUserHandler datewiseUserHandler = timeRepo.findById(userId).get();
-			 System.out.println(datewiseUserHandler.getTempAndSymtoms());
+			  if(datewiseUserHandler.getTempAndSymtoms().size()>0) {
+			 
 			
 		
 			
@@ -45,6 +46,11 @@ public class TemperatureDataService {
 					+ String.valueOf(hour) + "時" + String.valueOf(min) + "分" + String.valueOf(sec) + "秒　使新";
 		
 			}
+			  else {
+				  return "never insert temperature yet";
+			  }
+			  
+		}
 		catch (Exception e) {
 			return "never insert temperature yet";
 		}

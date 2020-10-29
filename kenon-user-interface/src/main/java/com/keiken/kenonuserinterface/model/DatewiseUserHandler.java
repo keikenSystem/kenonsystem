@@ -9,11 +9,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "m_most_updated_time")
@@ -23,9 +25,6 @@ public class DatewiseUserHandler implements Serializable {
 	@Column(name = "社員番号", nullable = false)
 	private String userId;
 	
-	
-	@GeneratedValue
-	private Long id;
 
 	@Column(name = "最近の挿入時間", nullable = true)
 	@UpdateTimestamp
