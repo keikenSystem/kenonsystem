@@ -32,6 +32,8 @@ public class InputDataController {
 	@Autowired
 	private TemperatureDataService tempDataService;
 	
+
+	
 	//To Control admin input data
 	
 	@RequestMapping(value = "/admin/user_information", method = RequestMethod.GET)
@@ -121,7 +123,18 @@ public class InputDataController {
 			session.removeAttribute("isLoggedIn");
 			return new ModelAndView("redirect:/login");
 		}
+		
+		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
+		
 		//save data to db;
+		if(gotSymtom==0)
+		tempData.setGotSymtoms(false);
+		else tempData.setGotSymtoms(true);
+		tempData.setUserId(userSession);
+		tempData.setTemperature(temperature);
+		
+		tempDataService.addData(tempData);
+		
 		System.out.println("visit");
 		System.out.println(temperature);
 		System.out.println(gotSymtom);

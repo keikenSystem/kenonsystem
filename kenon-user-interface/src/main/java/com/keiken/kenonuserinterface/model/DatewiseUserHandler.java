@@ -26,8 +26,7 @@ public class DatewiseUserHandler implements Serializable {
 	private String userId;
 	
 
-	@Column(name = "最近の挿入時間", nullable = true)
-	@UpdateTimestamp
+	@Column(name = "最近の挿入時間")
 	private Timestamp lastUsedTime;
 
 	@OneToMany(mappedBy = "datewiseUserHandler", cascade = CascadeType.ALL)

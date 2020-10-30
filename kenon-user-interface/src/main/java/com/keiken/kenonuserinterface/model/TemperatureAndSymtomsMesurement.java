@@ -12,25 +12,33 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 //0e698a8ffc1a0af622c7b4db3cb750cc
 @Entity
 @Table(name = "m_user_temparature")
 public class TemperatureAndSymtomsMesurement implements Serializable {
 
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	long id;
+	
 	@Column(name = "体温", nullable = true)
 	private double temperature;
 
 	@Column(name = "症状の有無", nullable = true)
 	private boolean gotSymtoms;
 
-	@Id
 	@Column(name = "社員番号", nullable = false)
 	private String userId;
 
-	@Column(name = "更新日時", nullable = true)
+	@Column(name = "更新日時")
 	private Timestamp lastUsedTime;
 
+	public void setLastUsedTime(Timestamp lastUsedTime) {
+		this.lastUsedTime = lastUsedTime;
+	}
 	@ManyToOne()
 	@JoinColumn(name="fk_user_id")
 	private DatewiseUserHandler datewiseUserHandler;
@@ -41,16 +49,27 @@ public class TemperatureAndSymtomsMesurement implements Serializable {
 		
 		// TODO Auto-generated constructor stub
 	}
-	public TemperatureAndSymtomsMesurement(String userId, DatewiseUserHandler datewiseUserHandler) {
-		this.userId = userId;
-		this.datewiseUserHandler = datewiseUserHandler;
+//	public TemperatureAndSymtomsMesurement(String userId, DatewiseUserHandler datewiseUserHandler) {
+//		this.userId = userId;
+//		this.datewiseUserHandler = datewiseUserHandler;
+//	}
+
+
+	public TemperatureAndSymtomsMesurement(String userId2, double temperature2, boolean gotSymtoms2,Timestamp lastUsedTime2,DatewiseUserHandler dateHandler) {
+		// TODO Auto-generated constructor stub
+		this.userId = userId2;
+		this.temperature = temperature2;
+		this.gotSymtoms = gotSymtoms2;
+		this.lastUsedTime = lastUsedTime2;
+		this.datewiseUserHandler = dateHandler;
 	}
-
-
 	public double getTemperature() {
 		return temperature;
 	}
 
+	public Timestamp getLastUsedTime() {
+		return lastUsedTime;
+	}
 	public void setTemperature(double temperature) {
 		this.temperature = temperature;
 	}
@@ -71,13 +90,8 @@ public class TemperatureAndSymtomsMesurement implements Serializable {
 		this.userId = userId;
 	}
 
-	public Timestamp getLastUsedTime() {
-		return lastUsedTime;
-	}
 
-	public void setLastUsedTime(Timestamp lastUsedTime) {
-		this.lastUsedTime = lastUsedTime;
-	}
+
 
 	public DatewiseUserHandler getDatewiseUserHandler() {
 		return datewiseUserHandler;
@@ -89,8 +103,8 @@ public class TemperatureAndSymtomsMesurement implements Serializable {
 	@Override
 	public String toString() {
 		return "TemperatureAndSymtomsMesurement [temperature=" + temperature + ", gotSymtoms=" + gotSymtoms
-				+ ", userId=" + userId + ", lastUsedTime=" + lastUsedTime + ", datewiseUserHandler="
-				+ datewiseUserHandler + "]";
+				+ ", userId=" + userId + ", lastUsedTime=" + lastUsedTime + "]";
 	}
+
 
 }
