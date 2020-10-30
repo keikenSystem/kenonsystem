@@ -58,8 +58,16 @@ public class PasswordReset {
 			System.out.println(errorMsg);
 			return new ModelAndView("reset_password", model);
 		}
+		
 		if (!newPassword.equals(confirmPassword)) {
 			errorMsg += "newPassword and confirm password doesn't match ";
+			model.put("errorMessage", errorMsg);
+			System.out.println(errorMsg);
+			return new ModelAndView("reset_password", model);
+		}
+		if(confirmPassword.length()<6||confirmPassword.length()>50)
+		{
+			errorMsg += "password length should be 6 to 50 ";
 			model.put("errorMessage", errorMsg);
 			System.out.println(errorMsg);
 			return new ModelAndView("reset_password", model);
