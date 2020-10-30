@@ -89,7 +89,7 @@
 		</div>
 		<p>本日の体温を入力してください。</p>
 		<p>なお、37.5℃以上ある場合は所属部門長へ連絡の上、欠席の手続きをしてください。</p>
-		<input type="text" name="temperature" maxlength="4" id="temperature" /><label
+		<input type="text" name="temperature" maxlength="4" id="temperature" value="${temperature}" /><label
 			for="temperature">℃</label>
 		<p>風邪症状（発熱または熱感や悪寒、咳痰などの上気道症状、咽疼痛、鼻汁や鼻閉、倦怠感、関節痛、下痢、腹痛、</p>
 		<p>

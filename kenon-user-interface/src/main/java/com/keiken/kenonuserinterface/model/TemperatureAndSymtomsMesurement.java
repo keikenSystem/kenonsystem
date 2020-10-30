@@ -49,10 +49,7 @@ public class TemperatureAndSymtomsMesurement implements Serializable {
 		
 		// TODO Auto-generated constructor stub
 	}
-//	public TemperatureAndSymtomsMesurement(String userId, DatewiseUserHandler datewiseUserHandler) {
-//		this.userId = userId;
-//		this.datewiseUserHandler = datewiseUserHandler;
-//	}
+
 
 
 	public TemperatureAndSymtomsMesurement(String userId2, double temperature2, boolean gotSymtoms2,Timestamp lastUsedTime2,DatewiseUserHandler dateHandler) {

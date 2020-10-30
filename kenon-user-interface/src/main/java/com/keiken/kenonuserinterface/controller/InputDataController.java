@@ -1,5 +1,7 @@
 package com.keiken.kenonuserinterface.controller;
 
+import java.sql.Timestamp;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,132 +19,150 @@ import com.keiken.kenonuserinterface.service.UserDataService;
 
 /* This controller used to control request for insert information user page  */
 
-
-
 /// Get and post method to show user information page 
-
-
 
 @Controller
 public class InputDataController {
-
 
 	@Autowired
 	UserDataService userDataService;
 	@Autowired
 	private TemperatureDataService tempDataService;
-	
 
-	
-	//To Control admin input data
-	
+	// To Control admin input data
+
 	@RequestMapping(value = "/admin/user_information", method = RequestMethod.GET)
-	public String showAdminInfoInputPage(ModelMap model,HttpSession session) {
-		
-				
+	public String showAdminInfoInputPage(ModelMap model, HttpSession session) {
+
 		String userSession = (String) session.getAttribute("userId");
 
-		String role = (String) session.getAttribute("role");	
-		if(role==null||session.getAttribute("isLoggedIn")==null){
+		String role = (String) session.getAttribute("role");
+		if (role == null || session.getAttribute("isLoggedIn") == null) {
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
+		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
 
+		// Control is user already given or not
 
-	
-		model.put("lastUsedDate",tempDataService.getLastUsedDateText(userSession));
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+		if (tempDataService.isUserInsertedDataTodayOrNot(userSession, currentTime)) {
+			tempData = tempDataService.getTodaysData(userSession);
+			model.put("temperature", tempData.getTemperature());
+		}
+
+		model.put("lastUsedDate", tempDataService.getLastUsedDateText(userSession));
 		model.put("userName", userDataService.findName(userSession));
 		model.put("userId", userSession);
 		model.put("role", role);
 		return "insert_info";
-	
+
 	}
-	
+
 	@RequestMapping(value = "/user/user_information", method = RequestMethod.GET)
-	public String showUserInfoInputPage(ModelMap model,HttpSession session) {
-		
-				
+	public String showUserInfoInputPage(ModelMap model, HttpSession session) {
+
 		String userSession = (String) session.getAttribute("userId");
 
-		String role = (String) session.getAttribute("role");	
-		if(role==null||session.getAttribute("isLoggedIn")==null){
+		String role = (String) session.getAttribute("role");
+		if (role == null || session.getAttribute("isLoggedIn") == null) {
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
+		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
 
+		// Control is user already given or not
 
-		model.put("lastUsedDate",tempDataService.getLastUsedDateText(userSession));
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+		if (tempDataService.isUserInsertedDataTodayOrNot(userSession, currentTime)) {
+			tempData = tempDataService.getTodaysData(userSession);
+			model.put("temperature", tempData.getTemperature());
+		}
+
+		model.put("lastUsedDate", tempDataService.getLastUsedDateText(userSession));
 		model.put("userName", userDataService.findName(userSession));
 		model.put("userId", userSession);
 		model.put("role", role);
 		return "insert_info";
-	
+
 	}
 
 // To show both user and admin information 
-	
-	
+
 	@RequestMapping(value = "user_information", method = RequestMethod.GET)
-	public String showInfoInputPage(ModelMap model,HttpSession session, @RequestParam String userId ) {
-		
-				
+	public String showInfoInputPage(ModelMap model, HttpSession session, @RequestParam String userId) {
+
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
-		if(!userSession.equals(userId)||role==null||session.getAttribute("isLoggedIn")==null){
+		if (!userSession.equals(userId) || role == null || session.getAttribute("isLoggedIn") == null) {
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
-		
+		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
+
+		// Control is user already given or not
+
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+
+		if (tempDataService.isUserInsertedDataTodayOrNot(userSession, currentTime)) {
+			tempData = tempDataService.getTodaysData(userSession);
+			model.put("temperature", tempData.getTemperature());
+		}
+
 		model.addAttribute("userId", userId);
 		model.addAttribute("role", role);
-		model.put("lastUsedDate",tempDataService.getLastUsedDateText(userId));
+		model.put("lastUsedDate", tempDataService.getLastUsedDateText(userId));
 		model.put("userName", userDataService.findName(userId));
 		model.put("userId", userId);
 		return "insert_info";
-	
+
 	}
-	
 
 	@RequestMapping(value = "inputdata", method = RequestMethod.GET)
-	public ModelAndView saveInfoDataToDb(ModelMap model,HttpSession session, @RequestParam double temperature, @RequestParam int gotSymtom) {
-		
-				
+	public ModelAndView saveInfoDataToDb(ModelMap model, HttpSession session, @RequestParam double temperature,
+			@RequestParam int gotSymtom) {
+
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
-		if(role==null||session.getAttribute("isLoggedIn")==null){
+		if (role == null || session.getAttribute("isLoggedIn") == null) {
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
 			return new ModelAndView("redirect:/login");
 		}
-		
+
 		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
-		
-		//save data to db;
-		if(gotSymtom==0)
-		tempData.setGotSymtoms(false);
-		else tempData.setGotSymtoms(true);
+
+		// Control is user already given or not
+
+		// save data to db;
+		if (gotSymtom == 0)
+			tempData.setGotSymtoms(false);
+		else
+			tempData.setGotSymtoms(true);
+
 		tempData.setUserId(userSession);
 		tempData.setTemperature(temperature);
-		
+
 		tempDataService.addData(tempData);
-		
+
 		System.out.println("visit");
 		System.out.println(temperature);
 		System.out.println(gotSymtom);
 		System.out.println("save data");
-		model.addAttribute("role",session.getAttribute("role"));
-		return new ModelAndView("redirect:/{role}/user_information",model);
-	
-	}
+		model.addAttribute("role", session.getAttribute("role"));
+		return new ModelAndView("redirect:/{role}/user_information", model);
 
+	}
 
 }
