@@ -84,6 +84,7 @@ public class LoginController {
 		
 		session.setAttribute("role", role);
 		model.addAttribute("userId",userId);
+		
 		 return new ModelAndView("redirect:/user_information", model);
 		
 	}
