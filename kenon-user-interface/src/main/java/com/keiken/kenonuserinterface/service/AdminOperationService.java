@@ -3,12 +3,17 @@ package com.keiken.kenonuserinterface.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.poi.ss.formula.functions.Now;
@@ -24,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.keiken.kenonuserinterface.model.DatewiseUserHandler;
 import com.keiken.kenonuserinterface.model.EmployeeInfo;
 import com.keiken.kenonuserinterface.model.RegistrationInfo;
+import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
 import com.keiken.kenonuserinterface.repository.RepoLogger;
 import com.keiken.kenonuserinterface.repository.RepoUser;
 import com.keiken.kenonuserinterface.repository.RepoUserLoginOperation;
@@ -43,7 +49,7 @@ public class AdminOperationService {
 	RepoUserUpdatedTime repoUpdatedTime;
 	@Autowired
 	RepoLogger repoLogger;
-	
+
 	@Autowired
 	CustomValidator isValid;
 
@@ -375,38 +381,63 @@ public class AdminOperationService {
 
 		return "";
 	}
-	
-	//show logger based on date
-	
-	public void showHealthInfo(Date selectedDate) {
-		
-		System.out.println(repoLogger.getListByDate(selectedDate));
-	}
+
+//	//show logger based on date
+//	
+//	public void showHealthInfo(Date selectedDate) {
+//		
+//		System.out.println(repoLogger.getListByDate(selectedDate));
+//	}
 
 	public String addOrSubtracDate(int i) {
-		
-		GregorianCalendar cal  = new GregorianCalendar();
+
+		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTime(new Date());
 		cal.add(Calendar.DATE, i);
-	
-		return String.format("%04d-%02d-%02d",(cal.getTime().getYear()+1900),(cal.getTime().getMonth()+1),(cal.getTime().getDay()));
-				
-			
-		
+		return String.format("%04d-%02d-%02d", (cal.getTime().getYear() + 1900), (cal.getTime().getMonth() + 1),
+				(cal.getTime().getDate()));
+
+	}
+
+	public Date convertToDateViaSqlDate(LocalDate dateToConvert) {
+		return java.sql.Date.valueOf(dateToConvert);
+	}
+
+	public Date fiveDaysBefore(String date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+		LocalDate date1 = LocalDate.parse(date, formatter);
+
+		System.out.println(date1);
+		System.out.println(date1);
+
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(convertToDateViaSqlDate(date1));
+		cal.add(Calendar.DATE, -4);
+
+		return cal.getTime();
+
 	}
 
 	public List<String> getDepartmentList() {
-		
-		List<String> departments= new ArrayList<String>();
+
+		List<String> departments = new ArrayList<String>();
 		departments.add("全で");
-		
-		
+
 		departments.addAll(repoUser.findDistictDepartmentName());
-		
+
 		return departments;
 	}
-	
-	
-	
+
+	public ByteArrayInputStream readHealthInfo(String selectedDate, String department) {
+
+		List<TemperatureAndSymtomsMesurement> getData;
+		if (department.equals("全で"))
+			getData = repoLogger.getHealthInfoForAll(selectedDate, fiveDaysBefore(selectedDate));
+		else {
+			getData = repoLogger.getHealthInfoByDate(selectedDate, fiveDaysBefore(selectedDate), department);
+		}
+
+		return null;
+	}
 
 }

@@ -120,11 +120,29 @@ return"add_or_remove_user";
 		
 			model.put("Min", Min);
 			model.put("Max", Max);
-			
 			model.put("today", today);
 			model.put("departments", departmentList);
 			System.out.println("Min "+Min +"and Max "+Max);
 return new ModelAndView("show_list",model);
+
+	}
+	
+	
+	// Show list 
+	@RequestMapping(value="admin/user_list",method =RequestMethod.POST)
+	public void  getUserHealthStatus(ModelMap model,@RequestParam String selectedDate, @RequestParam String department,HttpSession session,HttpServletResponse response) throws IOException {
+		
+				
+		String userSession = (String) session.getAttribute("userId");
+         System.out.println(selectedDate+" "+department);
+		String role = (String) session.getAttribute("role");	
+		//response.setContentType("application/octet-stream");
+		//response.setHeader("Content-Disposition", "attachment; filename=.xlsx");
+		System.out.println(selectedDate);
+		ByteArrayInputStream stream = adminOperationService.readHealthInfo(selectedDate,department);
+		IOUtils.copy(stream, response.getOutputStream());
+		
+		
 
 	}
 

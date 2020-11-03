@@ -61,13 +61,13 @@
 
 
 
-	<form method="post" action="/kenon/admin/show_list" class="pl-3 m-4"
+	<form method="post"  class="pl-3 m-4"
 		style="font-size: 13px">
 		<div class="pt-3">
 			<h4>一覧の出力</h4>
 		</div>
 		<label>出力期間 （選択日を 過去5日間）</label> <input type="date" min="${Min}"
-			max="${Max}" value="${today}" name="selectedDate"
+			max="${Max}" value=${today} name="selectedDate"
 			class="form-control" /> 
 			
 		<label>出力対象</label> 
@@ -75,8 +75,8 @@
 		<select name="department" class="form-control">
 		<%int i=0;
 		%>
-		<c:forEach items="${departments}" var="department">
-			   <option value="${i}">${department}</option>
+		<c:forEach items="${departments}" var="dept">
+			   <option>${dept}</option>
 			   <%
 			    i=i+1;
 			   %>
