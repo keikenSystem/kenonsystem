@@ -18,4 +18,10 @@ public interface RepoLogger extends CrudRepository<TemperatureAndSymtomsMesureme
 	@Query(value="select * from m_user_temparature where Date(m_user_temparature.更新日時)<= ?1 and Date(m_user_temparature.更新日時)>=?2",nativeQuery = true)
 	public List<TemperatureAndSymtomsMesurement> getHealthInfoForAll(String selectedDate,Date fiveDaysBefore);
 
+	@Query(value="select DISTINCT(fk_user_id) from m_user_temparature where Date(m_user_temparature.更新日時)<= ?1 and Date(m_user_temparature.更新日時)>=?2 ORDER BY fk_user_id ASC",nativeQuery = true)
+	public List<String> getUserIdList(String selectedDate, Date changeDate);
+
+	@Query(value="select DISTINCT(fk_user_id) from m_user_temparature,m_user where m_user.社員番号=fk_user_id and Date(m_user_temparature.更新日時)<= ?1 and Date(m_user_temparature.更新日時)>=?2 and m_user.部門=?3 ORDER BY fk_user_id ASC",nativeQuery = true)
+	public List<String> getUserIdList(String selectedDate, Date changeDate, String department);
+
 }

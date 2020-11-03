@@ -120,12 +120,12 @@ public class AdminOperationService {
 
 	// find userId from excel
 
-	private HashMap<String, Integer> getUserIdFromExcel(MultipartFile readExcelData) throws IOException {
+	private Map<String, Integer> getUserIdFromExcel(MultipartFile readExcelData) throws IOException {
 
 		if (!hasExcelFormat(readExcelData))
 			System.out.println("file error");
 
-		HashMap<String, Integer> userIdData = new HashMap();
+		Map<String, Integer> userIdData = new HashMap();
 		this.readExcelData = readExcelData;
 
 		XSSFWorkbook workbook = new XSSFWorkbook(readExcelData.getInputStream());
@@ -382,12 +382,7 @@ public class AdminOperationService {
 		return "";
 	}
 
-//	//show logger based on date
-//	
-//	public void showHealthInfo(Date selectedDate) {
-//		
-//		System.out.println(repoLogger.getListByDate(selectedDate));
-//	}
+//Control view page by limitation for selectable date
 
 	public String addOrSubtracDate(int i) {
 
@@ -399,24 +394,33 @@ public class AdminOperationService {
 
 	}
 
+//Format date based on 2020-03-12
+
+	public String formatDate(Date date) {
+		return String.format("%04d-%02d-%02d", (date.getYear() + 1900), (date.getMonth() + 1), (date.getDate()));
+	}
+
+//Conver Locale date into Date
+
 	public Date convertToDateViaSqlDate(LocalDate dateToConvert) {
 		return java.sql.Date.valueOf(dateToConvert);
 	}
 
-	public Date fiveDaysBefore(String date) {
+	// Change date by integer number of date
+
+	public Date changeDate(String date, int i) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate date1 = LocalDate.parse(date, formatter);
 
-		System.out.println(date1);
-		System.out.println(date1);
-
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTime(convertToDateViaSqlDate(date1));
-		cal.add(Calendar.DATE, -4);
+		cal.add(Calendar.DATE, i);
 
 		return cal.getTime();
 
 	}
+
+	// Get available department list
 
 	public List<String> getDepartmentList() {
 
@@ -428,16 +432,92 @@ public class AdminOperationService {
 		return departments;
 	}
 
+	// Show list based on queries in excel format
+
 	public ByteArrayInputStream readHealthInfo(String selectedDate, String department) {
 
 		List<TemperatureAndSymtomsMesurement> getData;
-		if (department.equals("全で"))
-			getData = repoLogger.getHealthInfoForAll(selectedDate, fiveDaysBefore(selectedDate));
-		else {
-			getData = repoLogger.getHealthInfoByDate(selectedDate, fiveDaysBefore(selectedDate), department);
+		List<String> userIdList;
+		List<String> dateList = new ArrayList<>();
+
+		if (department.equals("全で")) {
+			getData = repoLogger.getHealthInfoForAll(selectedDate, changeDate(selectedDate, -4));
+			userIdList = repoLogger.getUserIdList(selectedDate, changeDate(selectedDate, -4));
+		} else {
+			getData = repoLogger.getHealthInfoByDate(selectedDate, changeDate(selectedDate, -4), department);
+			userIdList = repoLogger.getUserIdList(selectedDate, changeDate(selectedDate, -4), department);
 		}
 
-		return null;
+		try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+			XSSFSheet sheet = workbook.createSheet("user_output");
+
+			int val = -4;
+			Row row = sheet.createRow(0);
+			Row row1 = sheet.createRow(1);
+			String[] headers = { "社員番号", "氏名", "カナ氏名", "所属部署" };
+
+			// Fixed first two rows with title
+
+			for (int i = 0; i <= 13; i++) {
+
+				dateList.add("");
+				if (i < 4) {
+					row.createCell(i).setCellValue(headers[i]);
+					row1.createCell(i).setCellValue("");
+				} else {
+					if (i % 2 == 0) {
+
+						row.createCell(i).setCellValue(formatDate(changeDate(selectedDate, val)));
+						dateList.add(i, row.getCell(i).getStringCellValue());
+						row1.createCell(i).setCellValue("体温");
+						++val;
+
+					} else {
+						row.createCell(i).setCellValue("");
+						row1.createCell(i).setCellValue("症状");
+					}
+
+				}
+			}
+
+			for (int id = 0; id < userIdList.size(); id++) {
+
+				row = sheet.createRow(id + 2);
+				for (int j = 0; j <= 13; j++)
+					row.createCell(j);
+
+			}
+
+			for (TemperatureAndSymtomsMesurement info : getData) {
+
+				String userId = info.getUserId();
+				EmployeeInfo userInfo = repoUser.findById(userId).get();
+				String dateInformat = formatDate(info.getLastUsedTime());
+				int rowId = userIdList.indexOf(userId) + 2;
+				int dateCol = dateList.indexOf(dateInformat);
+				sheet.getRow(rowId).getCell(0).setCellValue(userId);
+				sheet.getRow(rowId).getCell(1).setCellValue(userInfo.getFullName());
+				sheet.getRow(rowId).getCell(2).setCellValue(userInfo.getFullNameInKata());
+				sheet.getRow(rowId).getCell(3).setCellValue(userInfo.getDepartment());
+				sheet.getRow(rowId).getCell(dateCol).setCellValue(info.getTemperature());
+				sheet.getRow(rowId).getCell(dateCol + 1).setCellValue(info.isGotSymtoms());
+
+			}
+
+			for (int i = 0; i <= 13; i++) {
+				sheet.autoSizeColumn(i);
+			}
+
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+			workbook.write(outputStream);
+			return new ByteArrayInputStream(outputStream.toByteArray());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }

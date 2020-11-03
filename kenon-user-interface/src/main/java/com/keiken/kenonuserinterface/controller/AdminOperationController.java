@@ -29,120 +29,109 @@ public class AdminOperationController {
 
 	// Get method for add or remove user
 
-	@RequestMapping(value="admin/add_or_remove_user",method =RequestMethod.GET )
-	public String showUpdateUserView(ModelMap model,HttpSession session, HttpServletRequest request) {
-		
-				
+	@RequestMapping(value = "admin/add_or_remove_user", method = RequestMethod.GET)
+	public String showUpdateUserView(ModelMap model, HttpSession session, HttpServletRequest request) {
+
 		String userSession = (String) session.getAttribute("userId");
 
-		String role = (String) session.getAttribute("role");	
-		if(role==null||session.getAttribute("isLoggedIn")==null||role=="user"){
+		String role = (String) session.getAttribute("role");
+		if (role == null || session.getAttribute("isLoggedIn") == null || role == "user") {
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
-	
-			
-return"add_or_remove_user";
+
+		return "add_or_remove_user";
 
 	}
 
 	// show view of add or remove user
 
-	@RequestMapping(value="/admin/add_or_remove_user",method =RequestMethod.POST)
-	public String showUpdateUserOperation(ModelMap model,HttpSession session,@RequestParam("importedFile") MultipartFile readExcelData) throws IOException {
-		
-				
+	@RequestMapping(value = "/admin/add_or_remove_user", method = RequestMethod.POST)
+	public String showUpdateUserOperation(ModelMap model, HttpSession session,
+			@RequestParam("importedFile") MultipartFile readExcelData) throws IOException {
+
 		String userSession = (String) session.getAttribute("userId");
 
-		String role = (String) session.getAttribute("role");	
-		if(role==null||session.getAttribute("isLoggedIn")==null||role=="user"){
+		String role = (String) session.getAttribute("role");
+		if (role == null || session.getAttribute("isLoggedIn") == null || role == "user") {
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
 			return "redirect:/login";
 		}
-		String errorCheck= adminOperationService.hasError(readExcelData);
-		if(errorCheck=="") {
+		String errorCheck = adminOperationService.hasError(readExcelData);
+		if (errorCheck == "") {
 			adminOperationService.addUserOrmodifyUser(readExcelData);
 			System.out.println("operation successfull");
-		}
-		else 
-		{
-			model.put("errorMessage","ERROR <br>"+errorCheck);
+		} else {
+			model.put("errorMessage", "ERROR <br>" + errorCheck);
 			System.out.println("operation error");
 		}
-			
-	
-		
-		
-		
-		
+
 		return "add_or_remove_user";
 	}
 
 	@RequestMapping(value = "admin/download/userlist.xlsx", method = RequestMethod.GET)
-	public void downloadUserListExcelFile(HttpServletResponse response) throws IOException {
+	public void downloadUserListExcelFile(HttpSession session, HttpServletResponse response) throws IOException {
 
+		String role = (String) session.getAttribute("role");
+		if (role != "admin")
+			response.sendRedirect("/login");
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Disposition", "attachment; filename=user_list.xlsx");
 		ByteArrayInputStream stream = adminOperationService.readDataFromDBandDownload();
 		IOUtils.copy(stream, response.getOutputStream());
-		
-		//For testing List
+
+		// For testing List
 //		Date date = new Date();
 //		adminOperationService.showHealthInfo(date);
 
 	}
-	
-	
-	// Show list 
-	@RequestMapping(value="admin/user_list",method =RequestMethod.GET )
-	public ModelAndView showSearchView(ModelMap model,HttpSession session, HttpServletRequest request) {
-		
-				
+
+	// Show list
+	@RequestMapping(value = "admin/user_list", method = RequestMethod.GET)
+	public ModelAndView showSearchView(ModelMap model, HttpSession session, HttpServletRequest request) {
+
 		String userSession = (String) session.getAttribute("userId");
 
-		String role = (String) session.getAttribute("role");	
-		if(role==null||session.getAttribute("isLoggedIn")==null||role=="user"){
+		String role = (String) session.getAttribute("role");
+		if (role == null || session.getAttribute("isLoggedIn") == null || role == "user") {
 			session.removeAttribute("userId");
 			session.removeAttribute("role");
 			session.removeAttribute("isLoggedIn");
 			return new ModelAndView("redirect:/login");
 		}
-		
+
 		String Max = adminOperationService.addOrSubtracDate(5);
-		String Min = adminOperationService.addOrSubtracDate(-60);	
+		String Min = adminOperationService.addOrSubtracDate(-60);
 		String today = adminOperationService.addOrSubtracDate(0);
-		
+
 		List<String> departmentList = adminOperationService.getDepartmentList();
-		
-			model.put("Min", Min);
-			model.put("Max", Max);
-			model.put("today", today);
-			model.put("departments", departmentList);
-			System.out.println("Min "+Min +"and Max "+Max);
-return new ModelAndView("show_list",model);
+
+		model.put("Min", Min);
+		model.put("Max", Max);
+		model.put("today", today);
+		model.put("departments", departmentList);
+		return new ModelAndView("show_list", model);
 
 	}
-	
-	
-	// Show list 
-	@RequestMapping(value="admin/user_list",method =RequestMethod.POST)
-	public void  getUserHealthStatus(ModelMap model,@RequestParam String selectedDate, @RequestParam String department,HttpSession session,HttpServletResponse response) throws IOException {
+
+	// Show list by excel file
+
+	@RequestMapping(value = "admin/user_list", method = RequestMethod.POST)
+	public void getUserHealthStatus(ModelMap model, @RequestParam String selectedDate, @RequestParam String department,
+			HttpSession session, HttpServletResponse response) throws IOException {
 		
-				
 		String userSession = (String) session.getAttribute("userId");
-         System.out.println(selectedDate+" "+department);
-		String role = (String) session.getAttribute("role");	
-		//response.setContentType("application/octet-stream");
-		//response.setHeader("Content-Disposition", "attachment; filename=.xlsx");
-		System.out.println(selectedDate);
-		ByteArrayInputStream stream = adminOperationService.readHealthInfo(selectedDate,department);
+		String role = (String) session.getAttribute("role");
+		if (!role.equals("admin"))
+			response.sendRedirect("/kenon/login");
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment; filename=fileOutput.xlsx");
+		ByteArrayInputStream stream = adminOperationService.readHealthInfo(selectedDate, department);
 		IOUtils.copy(stream, response.getOutputStream());
-		
-		
 
 	}
 
