@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,9 @@ import com.keiken.kenonuserinterface.model.DatewiseUserHandler;
 import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
 import com.keiken.kenonuserinterface.repository.RepoUserUpdatedTime;
 
+
 @Service
+@Transactional
 public class TemperatureDataService {
 
 	// find Date in string to set into the user information form
@@ -116,9 +120,7 @@ public class TemperatureDataService {
 		timeRepo.save(dateHandler);
 
 		dateHandler = timeRepo.findById(userId).get();
-		for (int i = 0; i < dateHandler.getTempAndSymtoms().size(); i++) {
-			System.out.println(dateHandler.getTempAndSymtoms().get(i));
-		}
+	
 
 	}
 

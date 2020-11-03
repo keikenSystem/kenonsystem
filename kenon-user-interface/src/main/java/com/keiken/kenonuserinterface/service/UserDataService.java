@@ -1,17 +1,18 @@
 package com.keiken.kenonuserinterface.service;
 
-import java.sql.Timestamp;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.keiken.kenonuserinterface.model.EmployeeInfo;
-import com.keiken.kenonuserinterface.model.RegistrationInfo;
 import com.keiken.kenonuserinterface.repository.RepoUser;
 
 
 @Service
+@Transactional
 public class UserDataService {
 	
 

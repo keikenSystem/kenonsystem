@@ -3,10 +3,9 @@ package com.keiken.kenonuserinterface.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +15,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.poi.ss.formula.functions.Now;
+import javax.transaction.Transactional;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -38,6 +38,7 @@ import com.keiken.kenonuserinterface.security.PasswordEncoder;
 import com.keiken.kenonuserinterface.validator.CustomValidator;
 
 @Service
+@Transactional
 public class AdminOperationService {
 
 	private MultipartFile readExcelData;
@@ -136,11 +137,11 @@ public class AdminOperationService {
 			XSSFRow row = worksheet.getRow(i);
 			int index = i;
 			String userId = row.getCell(0).getStringCellValue();
-			System.out.println(" getUsed function " + index + " " + userId);
+
 			userIdData.put(userId, index);
 
 		}
-		System.out.println(userIdData);
+
 		return userIdData;
 
 	}
@@ -188,6 +189,7 @@ public class AdminOperationService {
 	private void removeUserFromDb(EmployeeInfo user) {
 		repoUser.deleteById(user.getUserId());
 		repoUserLoginOperation.deleteById(user.getUserId());
+		repoUpdatedTime.deleteById(user.getUserId());
 
 	}
 
@@ -216,6 +218,8 @@ public class AdminOperationService {
 		registedUser.setToken("");
 		repoUserLoginOperation.save(registedUser);
 		tmData.setUserId(key);
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		tmData.setLastUsedTime(currentTime);
 		repoUpdatedTime.save(tmData);
 
 	}
@@ -250,24 +254,22 @@ public class AdminOperationService {
 
 				int index = excelIdList.get(user.getUserId());
 				if (!matchWithData(user, index)) {
-					System.out.println("need to update for index and user" + index + "  " + user);
+
 					updateDbWithNewData(user, index);
-					System.out.println("updaed successfull for " + user);
 
 				}
 				excelIdList.remove(user.getUserId());
 			} else {
-				System.out.println("not in excel " + user.getUserId());
+
 				removeUserFromDb(user);
-				System.out.println("removed successfull");
 
 			}
 		}
 		if (excelIdList.size() != 0)
 			for (Map.Entry<String, Integer> id : excelIdList.entrySet()) {
-				System.out.println("need to add userId " + id.getKey());
+
 				addUserToDb(id.getKey(), id.getValue());
-				System.out.println("user id " + id.getKey() + " " + "added succefully");
+
 			}
 
 	}

@@ -156,10 +156,6 @@ public class InputDataController {
 
 		tempDataService.addData(tempData);
 
-		System.out.println("visit");
-		System.out.println(temperature);
-		System.out.println(gotSymtom);
-		System.out.println("save data");
 		model.addAttribute("role", session.getAttribute("role"));
 		return new ModelAndView("redirect:/{role}/user_information", model);
 

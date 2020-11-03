@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +14,13 @@ import com.keiken.kenonuserinterface.mailSender.JavaMailSenderConf;
 import com.keiken.kenonuserinterface.model.DatewiseUserHandler;
 import com.keiken.kenonuserinterface.model.EmployeeInfo;
 import com.keiken.kenonuserinterface.model.RegistrationInfo;
-import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
 import com.keiken.kenonuserinterface.repository.RepoUser;
 import com.keiken.kenonuserinterface.repository.RepoUserLoginOperation;
 import com.keiken.kenonuserinterface.repository.RepoUserUpdatedTime;
 import com.keiken.kenonuserinterface.security.PasswordEncoder;
 
 @Service
+@Transactional
 public class EmailControlService {
 
 	@Autowired

@@ -11,7 +11,8 @@
 <!-- bootstrap cdn for css,js -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="<%= request.getContextPath()%>/css/style.css">
+
 </head>
 <body class="container-fluid mt-3">
  
@@ -44,7 +45,7 @@
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					メニュー <span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu auto-focus" aria-labelledby="dropdownMenu1">
+				<ul class="dropdown-menu bg-style" aria-labelledby="dropdownMenu1">
 					<li><a href="/kenon/admin/user_information/">体調の入力</a></li>
 					<li><a href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
 					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
@@ -90,7 +91,7 @@
 		<p>本日の体温を入力してください。</p>
 		<p>なお、37.5℃以上ある場合は所属部門長へ連絡の上、欠席の手続きをしてください。</p>
 		
-<input type="number" name="temperature" maxlength="4" id="temperature" step=0.01 required/><label
+<input type="number" name="temperature" maxlength="4" id="temperature" step=0.01 value="${temperature}" required/><label
 			for="temperature">℃</label>
 		<p>風邪症状（発熱または熱感や悪寒、咳痰などの上気道症状、咽疼痛、鼻汁や鼻閉、倦怠感、関節痛、下痢、腹痛、</p>
 		<p>

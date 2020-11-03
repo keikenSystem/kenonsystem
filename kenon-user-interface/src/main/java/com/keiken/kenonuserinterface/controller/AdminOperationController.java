@@ -132,6 +132,7 @@ public class AdminOperationController {
 		response.setHeader("Content-Disposition", "attachment; filename=fileOutput.xlsx");
 		ByteArrayInputStream stream = adminOperationService.readHealthInfo(selectedDate, department);
 		IOUtils.copy(stream, response.getOutputStream());
+		
 
 	}
 
