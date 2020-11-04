@@ -58,6 +58,7 @@ public class InputDataController {
 		model.put("userName", userDataService.findName(userSession));
 		model.put("userId", userSession);
 		model.put("role", role);
+		
 		return "insert_info";
 
 	}
@@ -155,6 +156,7 @@ public class InputDataController {
 		tempData.setTemperature(temperature);
 
 		tempDataService.addData(tempData);
+		session.setAttribute("data", "success");
 
 		model.addAttribute("role", session.getAttribute("role"));
 		return new ModelAndView("redirect:/{role}/user_information", model);

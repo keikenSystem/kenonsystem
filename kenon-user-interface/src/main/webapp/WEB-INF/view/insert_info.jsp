@@ -11,28 +11,66 @@
 <!-- bootstrap cdn for css,js -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="<%= request.getContextPath()%>/css/style.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/style.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+.swal-text {
+  
+  display: block;
+  margin: 22px;
+  text-align: left;
+  color: #61534e;
+}
+.swal-button{
+color:white;
+background-color:#343a40;
+}
 
+</style>
 </head>
 <body class="container-fluid mt-3">
- 
- <!-- Flag for admin or user role -->
- 
+
+	<!-- Flag for admin or user role -->
+
 	<%
 		String userRole = (String) request.getAttribute("role");
+	String data = (String) session.getAttribute("data");
 	%>
+	
+<!-- Handle  registration sucessfull -->
 
-
-<!-- -------------------Nav bar ----------------->
+	<%
+		if (data.equals("success")) {
+	%>
+	<script>
+		swal({
+			  text: "登録しました",
+			  button: "閉じる",
+			})
+	</script>
+	<%
+		}
+	%>
+	<%
+		if (data.equals("success"))
+		session.setAttribute("data", "fail");
+	      
+	%>
+	
+	
+	
+	<!-- -------------------Nav bar ----------------->
 
 	<nav style="background-color: #DCDCDC" class="m-3 h4 ">
 		<div class="d-inline-block p-3 font-weight-bold">
-			
+
 			<a href="/kenon/<%=request.getAttribute("role")%>/user_information"><img
-					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
+				alt="" src="<%=request.getContextPath()%>/icon/pen_icon.png"
+				width="25" height="25" /><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
-		
-<!-- -------------------Jsp for controlling  admin  ----------------->
+
+		<!-- -------------------Jsp for controlling  admin  ----------------->
 
 		<%
 			if (userRole.equals("admin")) {
@@ -49,7 +87,7 @@
 					<li><a href="/kenon/admin/user_information/">体調の入力</a></li>
 					<li><a href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
 					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
-					</ul>
+				</ul>
 			</div>
 		</div>
 		<%
@@ -63,14 +101,15 @@
 		</div>
 
 	</nav>
- 
- 
- 
- <!-- -------------------------------------------- Input information form --------------------------------- -->
- 
- 
 
-	<form action="/kenon/inputdata/" class="pl-3 m-4"  style="font-size: 13px">
+
+
+	<!-- -------------------------------------------- Input information form --------------------------------- -->
+
+
+
+	<form action="/kenon/inputdata/" class="pl-3 m-4"
+		style="font-size: 13px">
 		<div class="pt-3">
 			<h4>体調の入力</h4>
 		</div>
@@ -90,14 +129,12 @@
 		</div>
 		<p>本日の体温を入力してください。</p>
 		<p>なお、37.5℃以上ある場合は所属部門長へ連絡の上、欠席の手続きをしてください。</p>
-		
-<input type="number" name="temperature" maxlength="4" id="temperature" step=0.01 value="${temperature}" required/><label
-			for="temperature">℃</label>
-		<p>風邪症状（発熱または熱感や悪寒、咳痰などの上気道症状、咽疼痛、鼻汁や鼻閉、倦怠感、関節痛、下痢、腹痛、</p>
-		<p>
-			吐き気、嘔吐）の有無を入力してください。
 
-			<p>風症状がある場合は 所属部門長へ連絡の上、欠席の手続きをしてください。</p>
+		<input type="number" name="temperature" maxlength="4" id="temperature"
+			step=0.01 value="${temperature}" required /><label for="temperature">℃</label>
+		<p>風邪症状（発熱または熱感や悪寒、咳痰などの上気道症状、咽疼痛、鼻汁や鼻閉、倦怠感、関節痛、下痢、腹痛、</p>
+		<p>吐き気、嘔吐）の有無を入力してください。
+		<p>風症状がある場合は 所属部門長へ連絡の上、欠席の手続きをしてください。</p>
 		<select class="form-control-sm" name="gotSymtom">
 			<option value="0">無い</option>
 			<option value="1">有</option>
@@ -110,30 +147,31 @@
 	</form>
 
 
-  <div style="text-align:center;margin-left: 40%;margin-right: 40%;margin-bottom: 10%">
-     <div style="border:1px solid;padding:3px">
-     <p style="text-align:left">一連絡先</p>
-     <p style="text-align:left">代表：TEL　026-228-6644</p>
-  </div>
+	<div
+		style="text-align: center; margin-left: 40%; margin-right: 40%; margin-bottom: 10%">
+		<div style="border: 1px solid; padding: 3px">
+			<p style="text-align: left">一連絡先</p>
+			<p style="text-align: left">代表：TEL 026-228-6644</p>
+		</div>
 
-</div>
+	</div>
 
 
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-				integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-				crossorigin="anonymous"></script>
-			<script
-				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-				integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-				crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
 	<script
-				src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-				integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-				crossorigin="anonymous"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
 
 
 
-		</body>
+</body>
 </html>
