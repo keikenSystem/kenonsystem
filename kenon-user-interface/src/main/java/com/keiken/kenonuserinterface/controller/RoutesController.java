@@ -15,10 +15,7 @@ public class RoutesController implements ErrorController{
 	
 	@RequestMapping(value = PATH)
 	public String error(HttpSession session) {
-		session.removeAttribute("userId");
-		session.removeAttribute("role");
-		session.removeAttribute("isLoggedIn");
-       session.removeAttribute("isVisit");
+	
 		return "redirect:/login";
 	}
 	@Override
