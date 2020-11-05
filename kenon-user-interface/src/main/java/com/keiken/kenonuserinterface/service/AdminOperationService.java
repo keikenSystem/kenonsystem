@@ -282,7 +282,7 @@ public class AdminOperationService {
 		String[] headers = { "社員番号", "氏名", "カナ氏名", "部門", "mail", "パスワード", "管理権限" };
 		String errorCollector = "";
 		if (!hasExcelFormat(readExcelData2)) {
-			errorCollector = "file type error ";
+			errorCollector = "ファイルタイプエラー ";
 		}
 		if (!errorCollector.equals(""))
 			return errorCollector;
@@ -295,7 +295,7 @@ public class AdminOperationService {
 			for (int i = 0; i < worksheet.getPhysicalNumberOfRows(); i++) {
 				XSSFRow row = worksheet.getRow(i);
 				if (row == null)
-					return "row should not be blank for row " + (i + 1);
+					return "行は空白にしてはいけません。 -> "+ (i + 1);
 
 				if (i == 0) {
 					if (row.getCell(0).getStringCellValue().equals(headers[0])
@@ -305,10 +305,10 @@ public class AdminOperationService {
 							&& row.getCell(4).getStringCellValue().equals(headers[4])
 							&& row.getCell(5).getStringCellValue().equals(headers[5])
 							&& row.getCell(6).getStringCellValue().equals(headers[6])) {
-						System.out.println("Column is fine");
+						//System.out.println("Column is fine");
 
 					} else {
-						errorCollector = "column name error";
+						errorCollector = "カラム名エラー";
 
 						return errorCollector;
 					}
@@ -318,7 +318,7 @@ public class AdminOperationService {
 					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
 						errorCollector = isValid.checkUserId(row.getCell(0).getStringCellValue());
 					else
-						return "user id can't be null " + "at " + "row " + (i + 1);
+						return "社員番号はNULLではありません  行->"+ (i + 1);
 					if (errorCollector != "")
 						return errorCollector + " for " + row.getCell(0).getStringCellValue() + "at " + "row "
 								+ (i + 1);
@@ -326,16 +326,16 @@ public class AdminOperationService {
 					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
 						errorCollector = isValid.checkUserNameFormat(row.getCell(1).getStringCellValue());
 					else
-						return "user name can't be null " + "at " + "row " + (i + 1);
+						return "氏名はNULLではありません  行-> " + (i + 1);
 					;
 					if (errorCollector != "")
-						return errorCollector + " for " + row.getCell(1).getStringCellValue() + "at " + "row "
+						return errorCollector + " for " + row.getCell(1).getStringCellValue() + "at " + "行-> "
 								+ (i + 1);
 
 					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
 						errorCollector = isValid.checkUserNameFormat(row.getCell(2).getStringCellValue());
 					else
-						return "user name katakana can't be null " + "at " + "row " + (i + 1);
+						return "氏名カナはNULLではありません  行-> " + (i + 1);
 					if (errorCollector != "")
 						return errorCollector + " for " + row.getCell(2).getStringCellValue() + "at " + "row "
 								+ (i + 1);
@@ -343,7 +343,7 @@ public class AdminOperationService {
 					if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
 						errorCollector = isValid.checkUserNameFormat(row.getCell(3).getStringCellValue());
 					else
-						return "department name can't be null " + "at " + "row " + (i + 1);
+						return "部門はNULLではありません  行-> " + (i + 1);
 					if (errorCollector != "")
 						return errorCollector + " for " + row.getCell(3).getStringCellValue() + "at " + "row "
 								+ (i + 1);
@@ -351,7 +351,7 @@ public class AdminOperationService {
 					if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
 						errorCollector = isValid.checkEmailFormat(row.getCell(4).getStringCellValue());
 					else
-						return "Email can't be null at" + "row " + (i + 1);
+						return "EmailはNULLではありません  行-> " + (i + 1);
 					if (errorCollector != "")
 						return errorCollector + " for " + row.getCell(4).getStringCellValue() + "at " + "row "
 								+ (i + 1);
@@ -364,7 +364,7 @@ public class AdminOperationService {
 						errorCollector = isValid.checkBoolean(row.getCell(6).getBooleanCellValue());
 					else {
 						System.out.println(row.getCell(6).CELL_TYPE_BOOLEAN);
-						return "Administrator can't be null and value must be TRUE or FALSE " + "at " + "row "
+						return "管理権限はNULLではありません　と  Booleanタイプ  行-> "
 								+ (i + 1);
 					}
 					if (errorCollector != "")

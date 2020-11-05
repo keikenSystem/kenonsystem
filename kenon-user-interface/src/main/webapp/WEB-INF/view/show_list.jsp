@@ -66,7 +66,7 @@
 		<div class="pt-3">
 			<h4>一覧の出力</h4>
 		</div>
-		<label>出力期間 （選択日を 過去5日間）</label> <input type="date" min="${Min}"
+		<label>出力期間 （選択日を 含む過去5日間）</label> <input type="date" min="${Min}"
 			max="${Max}" value=${today} name="selectedDate"
 			class="form-control" /> 
 			

@@ -64,6 +64,7 @@ public class AdminOperationController {
 		String errorCheck = adminOperationService.hasError(readExcelData);
 		if (errorCheck == "") {
 			adminOperationService.addUserOrmodifyUser(readExcelData);
+			model.put("errorMessage","ユーザの取り込みしました");
 			System.out.println("operation successfull");
 		} else {
 			model.put("errorMessage", "ERROR <br>" + errorCheck);

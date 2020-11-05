@@ -21,7 +21,7 @@ public class CustomValidator {
 	public String checkUserId(String stringCellValue) {
 		// TODO Auto-generated method stub
 		if(stringCellValue.length()!=5)
-		return "user id should be length 5";
+		return "社員番号は長さ5でなければなりません。";
 		
 		return "";
 	}
@@ -29,7 +29,7 @@ public class CustomValidator {
 	public String checkUserNameFormat(String stringCellValue) {
 		// TODO Auto-generated method stub
 		if(stringCellValue.length()<=0||stringCellValue.length()>50)
-			return "name should be null or length should not exceed 50";
+			return "氏名はNULLではありません や 長さは50を超えてはなりません";
 			
 			return "";
 	}
@@ -39,7 +39,7 @@ public class CustomValidator {
 		 Pattern pattern = Pattern.compile(regex);
 		 if(pattern.matcher(stringCellValue).matches())
 		return "";
-		 else return  "Email format error";
+		 else return  "メールのフォーマットエラー。";
 	}
 
 
@@ -52,20 +52,20 @@ public class CustomValidator {
 		// TODO Auto-generated method stub
 		
 		
-		return "Administator value should be true/false";
+		return "Booleanタイプ エラー";
 	}
 
 	public String checkUserPasswordFormat(XSSFCell cell, XSSFCell cell2) {
 		if(login.checkUserIdExistOrNot(cell.getStringCellValue())) {
 			if(cell2!=null&&!cell2.getStringCellValue().equals("")) {
 				System.out.println(cell2.getStringCellValue());
-				return "can't change password of registerd user";
+				return "登録ユーザーのパスワードが変更できません。";
 			}
 		}
 		else {
 			
 		if(cell2==null||cell2.getStringCellValue().length()<6||cell2.getStringCellValue().length()>50) {
-			return "password length should be 6 to 50";
+			return "パスワードの長さは6から50にする必要があります";
 		}
 		
 		}
