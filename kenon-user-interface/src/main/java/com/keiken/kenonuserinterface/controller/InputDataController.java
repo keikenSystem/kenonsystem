@@ -156,7 +156,7 @@ public class InputDataController {
 		tempData.setTemperature(temperature);
 
 		tempDataService.addData(tempData);
-		session.setAttribute("data", "success");
+		session.setAttribute("checkAlert", "success");
 
 		model.addAttribute("role", session.getAttribute("role"));
 		return new ModelAndView("redirect:/{role}/user_information", model);

@@ -33,19 +33,36 @@ public class JavaMailSenderConf {
 		msg.setSubject("（ケンンシステム）パスワード再設定のメール");
 		msg.setText(name + "様" + "\n\n"
 				+ "パスワードをリセットするには次のリンクをクリックしてください。\n http://localhost:8086/kenon/new_password_set?userId=" + userId
-				+ "&token=" + token + "\nこのURLにクリックしてパスワードリセットください");
+				+ "&token=" + token +"\n(このURLは1回の変更のみ有効です。)"+"\n\n"+"================================================\n"+
+				"本メールは送信専用メールです。返信はできません。"+"\n"+"問い合わせは下記にお願いします。"+"\n\n"+ " -本件問い合わせ先-：\n "+
+				 "tel    :             026-228-6644  \n"+ "E-mail :  miyazawa@keiken.local \n"+
+				
+				
+ "================================================"
+				
+				);
 
 		javaMailSender.send(msg);
 	}
 
 	// Mail sender for reminder
-
+	
 	public void sendReminder(String email) {
 
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setTo(email);
-		msg.setSubject("体温を入力しなかった場合のリマインドメール");
-		msg.setText("本日体温を入力してください。\nhttp://localhost:8086/kenon/login/");
+		msg.setSubject("リマインドメール");
+		msg.setText("\n\n"+ "本日の体温及び風邪の症状等が未入力ですので、入力してください。\n"+
+				"http://localhost:8086/kenon/login/"+
+				  "\n                                   ケイケンシステム管理部 \n"+
+				  "================================================================\n"+
+				  "本メールは送信専用メールです。返信はできません。\n"+
+				  "問い合わせは下記にお願いします。\n\n"+
+				  "tel    :             026-228-6644  \n"+
+				  "E-mail :        miyazawa@keiken.local \n"+
+				  "=================================================================\n"
+		
+				);
 		javaMailSender.send(msg);
 
 	}

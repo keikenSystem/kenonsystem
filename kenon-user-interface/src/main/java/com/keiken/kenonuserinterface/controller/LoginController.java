@@ -83,7 +83,7 @@ public class LoginController {
 			role="user";
 		
 		session.setAttribute("role", role);
-		session.setAttribute("data", "fail");
+		
 		model.addAttribute("userId",userId);
 		
 		 return new ModelAndView("redirect:/user_information", model);
@@ -116,12 +116,10 @@ public class LoginController {
        
 		String userId= emailControlService.getUserIdByEmailId(userEmail);
 		mailService.sendEmail(userEmail,userId);
-		System.out.print("check email");
 		session.removeAttribute("userId");
 		session.removeAttribute("role");
 		session.removeAttribute("isLoggedIn");
        session.removeAttribute("isVisit");
-       
        return new ModelAndView("redirect:/login");
 
 	}
@@ -134,7 +132,7 @@ public class LoginController {
 		session.removeAttribute("userId");
 		session.removeAttribute("role");
 		session.removeAttribute("isLoggedIn");
-		session.removeAttribute("data");
+	
 		return "redirect:/login";
 	}
 	

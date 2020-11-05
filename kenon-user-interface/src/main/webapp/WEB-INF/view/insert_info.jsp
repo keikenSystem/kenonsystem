@@ -35,13 +35,12 @@ background-color:#343a40;
 
 	<%
 		String userRole = (String) request.getAttribute("role");
-	String data = (String) session.getAttribute("data");
 	%>
 	
 <!-- Handle  registration sucessfull -->
 
 	<%
-		if (data.equals("success")) {
+		if (session.getAttribute("checkAlert")!=null){
 	%>
 	<script>
 		swal({
@@ -53,8 +52,8 @@ background-color:#343a40;
 		}
 	%>
 	<%
-		if (data.equals("success"))
-		session.setAttribute("data", "fail");
+		
+		session.removeAttribute("checkAlert");
 	      
 	%>
 	
@@ -79,14 +78,14 @@ background-color:#343a40;
 
 			<div class="dropdown">
 				<button style="background-color: transparent"
-					class="btn  dropdown-toggle" id="dropdownMenu1"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					class="btn  dropdown-toggle " 
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-hover="dropdown">
 					メニュー <span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu bg-style" aria-labelledby="dropdownMenu1">
-					<li><a href="/kenon/admin/user_information/">体調の入力</a></li>
-					<li><a href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
-					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
+				<ul class="dropdown-menu bg-style">
+					<li><a class="dropdown-item" href="/kenon/admin/user_information/">体調の入力</a></li>
+					<li><a class="dropdown-item" href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
+					<li><a class="dropdown-item" href="/kenon/admin/user_list">一覧の出力</a></li>
 				</ul>
 			</div>
 		</div>

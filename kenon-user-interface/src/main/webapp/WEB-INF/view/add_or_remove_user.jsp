@@ -33,15 +33,15 @@
 
 			<div class="dropdown">
 				<button style="background-color: transparent"
-					class="btn  dropdown-toggle" id="dropdownMenu1"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					class="btn  dropdown-toggle " 
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-hover="dropdown">
 					メニュー <span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-					<li><a href="/kenon/admin/user_information/">体調の入力</a></li>
-					<li><a href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
-					<li><a href="/kenon/admin/user_list">一覧の出力</a></li>
-					</ul>
+				<ul class="dropdown-menu bg-style">
+					<li><a class="dropdown-item" href="/kenon/admin/user_information/">体調の入力</a></li>
+					<li><a class="dropdown-item" href="/kenon/admin/add_or_remove_user">ユーザの取り込み</a></li>
+					<li><a class="dropdown-item" href="/kenon/admin/user_list">一覧の出力</a></li>
+				</ul>
 			</div>
 		</div>
 	
