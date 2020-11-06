@@ -530,4 +530,14 @@ public class AdminOperationService {
 
 	}
 
+	public void removeTemperatureDataBeforeTwoMonth() {
+		// TODO Auto-generated method stub
+		try {
+			repoLogger.removeDataBefore(addOrSubtracDate(-60));
+		}catch(Exception e) {
+			System.out.println("remove data error");
+		}
+		
+	}
+
 }
