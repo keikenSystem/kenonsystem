@@ -22,7 +22,7 @@
 	<nav style="background-color: #DCDCDC" class="m-3 h4 ">
 		<div class="d-inline-block p-3 font-weight-bold">
 			
-			<a href="/kenon/admin/add_or_remove_user"><img
+			<a href="/kenon/admin/user_information"><img
 					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		

@@ -78,7 +78,7 @@ public class AdminOperationController {
 	public void downloadUserListExcelFile(HttpSession session, HttpServletResponse response) throws IOException {
 
 		String role = (String) session.getAttribute("role");
-		if (role != "admin")
+		if (!role.equals("admin"))
 			response.sendRedirect("/login");
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Disposition", "attachment; filename=user_list.xlsx");
@@ -127,13 +127,14 @@ public class AdminOperationController {
 		
 		String userSession = (String) session.getAttribute("userId");
 		String role = (String) session.getAttribute("role");
-		if (!role.equals("admin"))
+		System.out.println(role);
+		if (role==null ||role.equals("user"))
 			response.sendRedirect("/kenon/login");
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Disposition", "attachment; filename=fileOutput.xlsx");
 		ByteArrayInputStream stream = adminOperationService.readHealthInfo(selectedDate, department);
 		IOUtils.copy(stream, response.getOutputStream());
-		
+	 
 
 	}
 

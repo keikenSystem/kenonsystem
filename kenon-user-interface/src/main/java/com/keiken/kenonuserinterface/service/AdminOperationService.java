@@ -281,6 +281,7 @@ public class AdminOperationService {
 
 		String[] headers = { "社員番号", "氏名", "カナ氏名", "部門", "mail", "パスワード", "管理権限" };
 		String errorCollector = "";
+		Map<String,Boolean> checkUserIdDuplicate = new HashMap<>();
 		if (!hasExcelFormat(readExcelData2)) {
 			errorCollector = "ファイルタイプエラー ";
 		}
@@ -296,6 +297,13 @@ public class AdminOperationService {
 				XSSFRow row = worksheet.getRow(i);
 				if (row == null)
 					return "行は空白にしてはいけません。 -> "+ (i + 1);
+				if(i>0) {
+					String id = row.getCell(0).getStringCellValue();
+					if(checkUserIdDuplicate.get(id)!=null)
+						return "社員番号は一意でなければなりません。";
+						
+					checkUserIdDuplicate.put(row.getCell(0).getStringCellValue(), true);
+				}
 
 				if (i == 0) {
 					if (row.getCell(0).getStringCellValue().equals(headers[0])

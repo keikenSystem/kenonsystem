@@ -15,7 +15,7 @@ public class RoutesController implements ErrorController{
 	
 	@RequestMapping(value = PATH)
 	public String error(HttpSession session) {
-	
+		//System.out.println("Route controller");
 		return "redirect:/login";
 	}
 	@Override

@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="UTF-8">
-<title>kenon</title>
+<title>パスワード変更</title>
 <!-- bootstrap cdn for css,js -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -22,10 +23,11 @@
 <body class="container-fluid">
 
 <!-- ---------------------------Nav bar ---------------------- -->
-
+<%String role = (String)session.getAttribute("role");
+%>
 	<nav style="background-color: #DCDCDC" class="m-3 h4">
 		<div class="d-inline-block p-3 font-weight-bold">
-			<a href="/kenon/password_reset"><img
+			<a href="/kenon/<%=role%>/user_information"><img
 					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png"" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
