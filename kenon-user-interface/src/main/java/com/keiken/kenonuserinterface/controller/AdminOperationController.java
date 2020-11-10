@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.keiken.kenonuserinterface.service.AdminOperationService;
 
@@ -26,19 +28,20 @@ public class AdminOperationController {
 
 	@Autowired
 	AdminOperationService adminOperationService;
+	
+	@Autowired
+	HttpSession session;
 
 	// Get method for add or remove user
 
 	@RequestMapping(value = "admin/add_or_remove_user", method = RequestMethod.GET)
-	public String showUpdateUserView(ModelMap model, HttpSession session, HttpServletRequest request) {
+	public String showUpdateUserView(ModelMap model,HttpServletRequest request) {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (role == null || session.getAttribute("isLoggedIn") == null || role == "user") {
-			session.removeAttribute("userId");
-			session.removeAttribute("role");
-			session.removeAttribute("isLoggedIn");
+			removedAllSessionData();
 			return "redirect:/login";
 		}
 
@@ -49,33 +52,31 @@ public class AdminOperationController {
 	// show view of add or remove user
 
 	@RequestMapping(value = "/admin/add_or_remove_user", method = RequestMethod.POST)
-	public String showUpdateUserOperation(ModelMap model, HttpSession session,
-			@RequestParam("importedFile") MultipartFile readExcelData) throws IOException {
+	public RedirectView showUpdateUserOperation(ModelMap model,
+			@RequestParam("importedFile") MultipartFile readExcelData, RedirectAttributes attr) throws IOException {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (role == null || session.getAttribute("isLoggedIn") == null || role == "user") {
-			session.removeAttribute("userId");
-			session.removeAttribute("role");
-			session.removeAttribute("isLoggedIn");
-			return "redirect:/login";
+			removedAllSessionData();
+			return new RedirectView("/login");
 		}
 		String errorCheck = adminOperationService.hasError(readExcelData);
 		if (errorCheck == "") {
 			adminOperationService.addUserOrmodifyUser(readExcelData);
-			model.put("errorMessage","ユーザの取り込みしました");
+			attr.addFlashAttribute("errorMessage","ユーザの取り込みしました");
 			System.out.println("operation successfull");
 		} else {
-			model.put("errorMessage", "ERROR <br>" + errorCheck);
+			attr.addFlashAttribute("errorMessage", "ERROR <br>" + errorCheck);
 			System.out.println("operation error");
 		}
 
-		return "add_or_remove_user";
+		return new RedirectView("add_or_remove_user");
 	}
 
 	@RequestMapping(value = "admin/download/userlist.xlsx", method = RequestMethod.GET)
-	public void downloadUserListExcelFile(HttpSession session, HttpServletResponse response) throws IOException {
+	public void downloadUserListExcelFile( HttpServletResponse response) throws IOException {
 
 		String role = (String) session.getAttribute("role");
 		if (!role.equals("admin"))
@@ -93,15 +94,13 @@ public class AdminOperationController {
 
 	// Show list
 	@RequestMapping(value = "admin/user_list", method = RequestMethod.GET)
-	public ModelAndView showSearchView(ModelMap model, HttpSession session, HttpServletRequest request) {
+	public ModelAndView showSearchView(ModelMap model, HttpServletRequest request) {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (role == null || session.getAttribute("isLoggedIn") == null || role == "user") {
-			session.removeAttribute("userId");
-			session.removeAttribute("role");
-			session.removeAttribute("isLoggedIn");
+			removedAllSessionData();
 			return new ModelAndView("redirect:/login");
 		}
 
@@ -123,7 +122,7 @@ public class AdminOperationController {
 
 	@RequestMapping(value = "admin/user_list", method = RequestMethod.POST)
 	public void getUserHealthStatus(ModelMap model, @RequestParam String selectedDate, @RequestParam String department,
-			HttpSession session, HttpServletResponse response) throws IOException {
+			 HttpServletResponse response) throws IOException {
 		
 		String userSession = (String) session.getAttribute("userId");
 		String role = (String) session.getAttribute("role");
@@ -136,6 +135,12 @@ public class AdminOperationController {
 		IOUtils.copy(stream, response.getOutputStream());
 	 
 
+	}
+	private void removedAllSessionData() {
+		session.removeAttribute("userId");
+		session.removeAttribute("role");
+		session.removeAttribute("isLoggedIn");
+		session.removeAttribute("isVisit");
 	}
 
 }

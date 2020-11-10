@@ -136,7 +136,7 @@ public class AdminOperationService {
 		for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
 			XSSFRow row = worksheet.getRow(i);
 			int index = i;
-			String userId = row.getCell(0).getStringCellValue();
+			String userId = row.getCell(0).getStringCellValue().trim();
 
 			userIdData.put(userId, index);
 
@@ -155,11 +155,11 @@ public class AdminOperationService {
 		XSSFRow row = worksheet.getRow(index);
 		// 社員番号,氏名,カナ氏名,部門,mail,パスワード,管理権限
 
-		if (row.getCell(0).getStringCellValue().equals(user.getUserId())
-				&& row.getCell(1).getStringCellValue().equals(user.getFullName())
-				&& row.getCell(2).getStringCellValue().equals(user.getFullNameInKata())
-				&& row.getCell(3).getStringCellValue().equals(user.getDepartment())
-				&& row.getCell(4).getStringCellValue().equals(user.getEmail())
+		if (row.getCell(0).getStringCellValue().trim().equals(user.getUserId())
+				&& row.getCell(1).getStringCellValue().trim().equals(user.getFullName())
+				&& row.getCell(2).getStringCellValue().trim().equals(user.getFullNameInKata())
+				&& row.getCell(3).getStringCellValue().trim().equals(user.getDepartment())
+				&& row.getCell(4).getStringCellValue().trim().equals(user.getEmail())
 				&& row.getCell(6).getBooleanCellValue() == user.isAdmin())
 			return true;
 
@@ -175,11 +175,11 @@ public class AdminOperationService {
 		XSSFRow row = worksheet.getRow(index);
 		// 社員番号,氏名,カナ氏名,部門,mail,パスワード,管理権限
 
-		user.setUserId(row.getCell(0).getStringCellValue());
-		user.setFullName(row.getCell(1).getStringCellValue());
-		user.setFullNameInKata(row.getCell(2).getStringCellValue());
-		user.setDepartment(row.getCell(3).getStringCellValue());
-		user.setEmail(row.getCell(4).getStringCellValue());
+		user.setUserId(row.getCell(0).getStringCellValue().trim());
+		user.setFullName(row.getCell(1).getStringCellValue().trim());
+		user.setFullNameInKata(row.getCell(2).getStringCellValue().trim());
+		user.setDepartment(row.getCell(3).getStringCellValue().trim());
+		user.setEmail(row.getCell(4).getStringCellValue().trim());
 		user.setAdmin(row.getCell(6).getBooleanCellValue());
 		repoUser.save(user);
 
@@ -205,16 +205,16 @@ public class AdminOperationService {
 		XSSFRow row = worksheet.getRow(value);
 		// 社員番号,氏名,カナ氏名,部門,mail,パスワード,管理権限
 
-		user.setUserId(row.getCell(0).getStringCellValue());
-		user.setFullName(row.getCell(1).getStringCellValue());
-		user.setFullNameInKata(row.getCell(2).getStringCellValue());
-		user.setDepartment(row.getCell(3).getStringCellValue());
-		user.setEmail(row.getCell(4).getStringCellValue());
+		user.setUserId(row.getCell(0).getStringCellValue().trim());
+		user.setFullName(row.getCell(1).getStringCellValue().trim());
+		user.setFullNameInKata(row.getCell(2).getStringCellValue().trim());
+		user.setDepartment(row.getCell(3).getStringCellValue().trim());
+		user.setEmail(row.getCell(4).getStringCellValue().trim());
 		user.setAdmin(row.getCell(6).getBooleanCellValue());
 		repoUser.save(user);
 
-		registedUser.setUserId(row.getCell(0).getStringCellValue());
-		registedUser.setPassword(passEncoder.encodedPassword(row.getCell(5).getStringCellValue()));
+		registedUser.setUserId(row.getCell(0).getStringCellValue().trim());
+		registedUser.setPassword(passEncoder.encodedPassword(row.getCell(5).getStringCellValue().trim()));
 		registedUser.setToken("");
 		repoUserLoginOperation.save(registedUser);
 		tmData.setUserId(key);
@@ -298,21 +298,21 @@ public class AdminOperationService {
 				if (row == null)
 					return "行は空白にしてはいけません。 -> "+ (i + 1);
 				if(i>0) {
-					String id = row.getCell(0).getStringCellValue();
+					String id = row.getCell(0).getStringCellValue().trim();
 					if(checkUserIdDuplicate.get(id)!=null)
 						return "社員番号は一意でなければなりません。";
 						
-					checkUserIdDuplicate.put(row.getCell(0).getStringCellValue(), true);
+					checkUserIdDuplicate.put(row.getCell(0).getStringCellValue().trim(), true);
 				}
 
 				if (i == 0) {
-					if (row.getCell(0).getStringCellValue().equals(headers[0])
-							&& row.getCell(1).getStringCellValue().equals(headers[1])
-							&& row.getCell(2).getStringCellValue().equals(headers[2])
-							&& row.getCell(3).getStringCellValue().equals(headers[3])
-							&& row.getCell(4).getStringCellValue().equals(headers[4])
-							&& row.getCell(5).getStringCellValue().equals(headers[5])
-							&& row.getCell(6).getStringCellValue().equals(headers[6])) {
+					if (row.getCell(0).getStringCellValue().trim().equals(headers[0])
+							&& row.getCell(1).getStringCellValue().trim().equals(headers[1])
+							&& row.getCell(2).getStringCellValue().trim().equals(headers[2])
+							&& row.getCell(3).getStringCellValue().trim().equals(headers[3])
+							&& row.getCell(4).getStringCellValue().trim().equals(headers[4])
+							&& row.getCell(5).getStringCellValue().trim().equals(headers[5])
+							&& row.getCell(6).getStringCellValue().trim().equals(headers[6])) {
 						//System.out.println("Column is fine");
 
 					} else {
@@ -324,44 +324,44 @@ public class AdminOperationService {
 				} else {
 
 					if (row.getCell(0) != null && row.getCell(0).getCellType() != Cell.CELL_TYPE_BLANK)
-						errorCollector = isValid.checkUserId(row.getCell(0).getStringCellValue());
+						errorCollector = isValid.checkUserId(row.getCell(0).getStringCellValue().trim());
 					else
 						return "社員番号はNULLではありません  行->"+ (i + 1);
 					if (errorCollector != "")
-						return errorCollector + " for " + row.getCell(0).getStringCellValue() + "at " + "row "
+						return errorCollector + " for " + row.getCell(0).getStringCellValue().trim() + "at " + "row "
 								+ (i + 1);
 
 					if (row.getCell(1) != null && row.getCell(1).getCellType() != Cell.CELL_TYPE_BLANK)
-						errorCollector = isValid.checkUserNameFormat(row.getCell(1).getStringCellValue());
+						errorCollector = isValid.checkUserNameFormat(row.getCell(1).getStringCellValue().trim());
 					else
 						return "氏名はNULLではありません  行-> " + (i + 1);
 					;
 					if (errorCollector != "")
-						return errorCollector + " for " + row.getCell(1).getStringCellValue() + "at " + "行-> "
+						return errorCollector + " for " + row.getCell(1).getStringCellValue().trim() + "at " + "行-> "
 								+ (i + 1);
 
 					if (row.getCell(2) != null && row.getCell(2).getCellType() != Cell.CELL_TYPE_BLANK)
-						errorCollector = isValid.checkUserNameFormat(row.getCell(2).getStringCellValue());
+						errorCollector = isValid.checkUserNameFormat(row.getCell(2).getStringCellValue().trim());
 					else
 						return "氏名カナはNULLではありません  行-> " + (i + 1);
 					if (errorCollector != "")
-						return errorCollector + " for " + row.getCell(2).getStringCellValue() + "at " + "row "
+						return errorCollector + " for " + row.getCell(2).getStringCellValue().trim() + "at " + "row "
 								+ (i + 1);
 
 					if (row.getCell(3) != null && row.getCell(3).getCellType() != Cell.CELL_TYPE_BLANK)
-						errorCollector = isValid.checkUserNameFormat(row.getCell(3).getStringCellValue());
+						errorCollector = isValid.checkUserNameFormat(row.getCell(3).getStringCellValue().trim());
 					else
 						return "部門はNULLではありません  行-> " + (i + 1);
 					if (errorCollector != "")
-						return errorCollector + " for " + row.getCell(3).getStringCellValue() + "at " + "row "
+						return errorCollector + " for " + row.getCell(3).getStringCellValue().trim() + "at " + "row "
 								+ (i + 1);
 
 					if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
-						errorCollector = isValid.checkEmailFormat(row.getCell(4).getStringCellValue());
+						errorCollector = isValid.checkEmailFormat(row.getCell(4).getStringCellValue().trim());
 					else
 						return "EmailはNULLではありません  行-> " + (i + 1);
 					if (errorCollector != "")
-						return errorCollector + " for " + row.getCell(4).getStringCellValue() + "at " + "row "
+						return errorCollector + " for " + row.getCell(4).getStringCellValue().trim() + "at " + "row "
 								+ (i + 1);
 
 					errorCollector = isValid.checkUserPasswordFormat(row.getCell(0), row.getCell(5));

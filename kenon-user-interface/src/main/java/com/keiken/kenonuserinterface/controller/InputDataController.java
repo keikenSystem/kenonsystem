@@ -29,18 +29,19 @@ public class InputDataController {
 	@Autowired
 	private TemperatureDataService tempDataService;
 
+	@Autowired
+	HttpSession session;
+
 	// To Control admin input data
 
 	@RequestMapping(value = "/admin/user_information", method = RequestMethod.GET)
-	public String showAdminInfoInputPage(ModelMap model, HttpSession session) {
+	public String showAdminInfoInputPage(ModelMap model) {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (role == null || session.getAttribute("isLoggedIn") == null) {
-			session.removeAttribute("userId");
-			session.removeAttribute("role");
-			session.removeAttribute("isLoggedIn");
+			removedAllSessionData();
 			return "redirect:/login";
 		}
 		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
@@ -58,21 +59,19 @@ public class InputDataController {
 		model.put("userName", userDataService.findName(userSession));
 		model.put("userId", userSession);
 		model.put("role", role);
-		
+
 		return "insert_info";
 
 	}
 
 	@RequestMapping(value = "/user/user_information", method = RequestMethod.GET)
-	public String showUserInfoInputPage(ModelMap model, HttpSession session) {
+	public String showUserInfoInputPage(ModelMap model) {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (role == null || session.getAttribute("isLoggedIn") == null) {
-			session.removeAttribute("userId");
-			session.removeAttribute("role");
-			session.removeAttribute("isLoggedIn");
+			removedAllSessionData();
 			return "redirect:/login";
 		}
 		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
@@ -97,15 +96,13 @@ public class InputDataController {
 // To show both user and admin information 
 
 	@RequestMapping(value = "user_information", method = RequestMethod.GET)
-	public String showInfoInputPage(ModelMap model, HttpSession session, @RequestParam String userId) {
+	public String showInfoInputPage(ModelMap model, @RequestParam String userId) {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (!userSession.equals(userId) || role == null || session.getAttribute("isLoggedIn") == null) {
-			session.removeAttribute("userId");
-			session.removeAttribute("role");
-			session.removeAttribute("isLoggedIn");
+			removedAllSessionData();
 			return "redirect:/login";
 		}
 		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
@@ -129,16 +126,14 @@ public class InputDataController {
 	}
 
 	@RequestMapping(value = "inputdata", method = RequestMethod.GET)
-	public ModelAndView saveInfoDataToDb(ModelMap model, HttpSession session, @RequestParam double temperature,
+	public ModelAndView saveInfoDataToDb(ModelMap model, @RequestParam double temperature,
 			@RequestParam int gotSymtom) {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (role == null || session.getAttribute("isLoggedIn") == null) {
-			session.removeAttribute("userId");
-			session.removeAttribute("role");
-			session.removeAttribute("isLoggedIn");
+			removedAllSessionData();
 			return new ModelAndView("redirect:/login");
 		}
 
@@ -161,6 +156,13 @@ public class InputDataController {
 		model.addAttribute("role", session.getAttribute("role"));
 		return new ModelAndView("redirect:/{role}/user_information", model);
 
+	}
+
+	private void removedAllSessionData() {
+		session.removeAttribute("userId");
+		session.removeAttribute("role");
+		session.removeAttribute("isLoggedIn");
+		session.removeAttribute("isVisit");
 	}
 
 }

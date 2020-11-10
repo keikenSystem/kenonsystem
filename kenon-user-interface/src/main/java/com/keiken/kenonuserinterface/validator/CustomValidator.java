@@ -56,15 +56,15 @@ public class CustomValidator {
 	}
 
 	public String checkUserPasswordFormat(XSSFCell cell, XSSFCell cell2) {
-		if(login.checkUserIdExistOrNot(cell.getStringCellValue())) {
-			if(cell2!=null&&!cell2.getStringCellValue().equals("")) {
-				System.out.println(cell2.getStringCellValue());
+		if(login.checkUserIdExistOrNot(cell.getStringCellValue().trim())) {
+			if(cell2!=null&&!cell2.getStringCellValue().trim().equals("")) {
+				System.out.println(cell2.getStringCellValue().trim());
 				return "登録ユーザーのパスワードが変更できません。";
 			}
 		}
 		else {
 			
-		if(cell2==null||cell2.getStringCellValue().length()<6||cell2.getStringCellValue().length()>50) {
+		if(cell2==null||cell2.getStringCellValue().trim().length()<6||cell2.getStringCellValue().trim().length()>50) {
 			return "パスワードの長さは6から50にする必要があります";
 		}
 		
