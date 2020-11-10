@@ -76,10 +76,11 @@ public class PasswordReset {
 		// Change password
 
 		loginService.resetPassword(userId, newPassword);
-		removedAllSessionData();
+		//removedAllSessionData();
 		System.out.println("success");
+		attr.addAttribute("userId",session.getAttribute("userId"));
 
-		return new RedirectView("/login");
+		return new RedirectView("/kenon/user_information");
 
 	}
 

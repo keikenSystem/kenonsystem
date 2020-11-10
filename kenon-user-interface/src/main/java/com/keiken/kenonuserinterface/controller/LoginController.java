@@ -94,7 +94,7 @@ public class LoginController {
 	
 	
 	
-//  In case for forgot password, rescure function
+//  In case for forgot password, rescue function
 // Helper JavaMailSenderConf used(EmailControlService)
 
 	@RequestMapping(value = "/login/recover", method = RequestMethod.GET)

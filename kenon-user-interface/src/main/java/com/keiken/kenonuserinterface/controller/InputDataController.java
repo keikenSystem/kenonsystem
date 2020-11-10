@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.keiken.kenonuserinterface.model.TemperatureAndSymtomsMesurement;
 import com.keiken.kenonuserinterface.service.TemperatureDataService;
@@ -52,7 +54,7 @@ public class InputDataController {
 
 		if (tempDataService.isUserInsertedDataTodayOrNot(userSession, currentTime)) {
 			tempData = tempDataService.getTodaysData(userSession);
-			model.put("temperature", tempData.getTemperature());
+			//model.put("temperature", tempData.getTemperature());
 		}
 
 		model.put("lastUsedDate", tempDataService.getLastUsedDateText(userSession));
@@ -82,7 +84,7 @@ public class InputDataController {
 
 		if (tempDataService.isUserInsertedDataTodayOrNot(userSession, currentTime)) {
 			tempData = tempDataService.getTodaysData(userSession);
-			model.put("temperature", tempData.getTemperature());
+			//model.put("temperature", tempData.getTemperature());
 		}
 
 		model.put("lastUsedDate", tempDataService.getLastUsedDateText(userSession));
@@ -113,7 +115,7 @@ public class InputDataController {
 
 		if (tempDataService.isUserInsertedDataTodayOrNot(userSession, currentTime)) {
 			tempData = tempDataService.getTodaysData(userSession);
-			model.put("temperature", tempData.getTemperature());
+			//model.put("temperature", tempData.getTemperature());
 		}
 
 		model.addAttribute("userId", userId);
@@ -126,15 +128,15 @@ public class InputDataController {
 	}
 
 	@RequestMapping(value = "inputdata", method = RequestMethod.GET)
-	public ModelAndView saveInfoDataToDb(ModelMap model, @RequestParam double temperature,
-			@RequestParam int gotSymtom) {
+	public RedirectView saveInfoDataToDb(ModelMap model, @RequestParam double temperature,
+			@RequestParam int gotSymtom,RedirectAttributes attr) {
 
 		String userSession = (String) session.getAttribute("userId");
 
 		String role = (String) session.getAttribute("role");
 		if (role == null || session.getAttribute("isLoggedIn") == null) {
 			removedAllSessionData();
-			return new ModelAndView("redirect:/login");
+			return new RedirectView("/kenon/login");
 		}
 
 		TemperatureAndSymtomsMesurement tempData = new TemperatureAndSymtomsMesurement();
@@ -142,19 +144,26 @@ public class InputDataController {
 		// Control is user already given or not
 
 		// save data to db;
-		if (gotSymtom == 0)
+		if (gotSymtom == 0) {
 			tempData.setGotSymtoms(false);
+		}
 		else
+		{
 			tempData.setGotSymtoms(true);
+		}
 
 		tempData.setUserId(userSession);
 		tempData.setTemperature(temperature);
 
 		tempDataService.addData(tempData);
 		session.setAttribute("checkAlert", "success");
+		attr.addFlashAttribute("temperature",temperature);
+		
+		attr.addFlashAttribute("errorMessage","体温情報入力しました");
+		session.setAttribute("symtom", String.valueOf(gotSymtom));
 
-		model.addAttribute("role", session.getAttribute("role"));
-		return new ModelAndView("redirect:/{role}/user_information", model);
+		attr.addAttribute("role", session.getAttribute("role"));
+		return new RedirectView("/kenon/{role}/user_information");
 
 	}
 
