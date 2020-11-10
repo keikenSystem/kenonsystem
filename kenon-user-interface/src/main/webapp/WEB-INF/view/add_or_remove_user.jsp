@@ -11,8 +11,15 @@
 <!-- bootstrap cdn for css,js -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
+<style>
+.dropdown-menu > li > a:hover {
+    background-image: none;
+    background-color: #0275d8;
+}
+
+</style>
 </head>
+
 <body class="container-fluid mt-3">
  
 

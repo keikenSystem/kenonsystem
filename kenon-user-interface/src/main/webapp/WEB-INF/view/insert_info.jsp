@@ -11,8 +11,7 @@
 <!-- bootstrap cdn for css,js -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/style.css">
+
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .swal-text {
@@ -27,6 +26,11 @@ color:white;
 background-color:#343a40;
 }
 
+.dropdown-menu > li > a:hover {
+    background-image: none;
+    background-color: #0275d8;
+}
+
 </style>
 </head>
 <body class="container-fluid mt-3">
@@ -35,6 +39,12 @@ background-color:#343a40;
 
 	<%
 		String userRole = (String) request.getAttribute("role");
+	    String symtom =  (String)session.getAttribute("symtom");
+			
+			if(symtom==null){
+				symtom="3";
+			}
+			
 	%>
 	
 <!-- Handle  registration sucessfull -->
@@ -112,6 +122,7 @@ background-color:#343a40;
 		<div class="pt-3">
 			<h4>体調の入力</h4>
 		</div>
+		<p style="color:green">${errorMessage}</p>
 		<div class="form-group pt-3">
 			<input type="text" class="form-control" name="lastUsedTime"
 				value="${lastUsedDate}" disabled />
@@ -134,10 +145,29 @@ background-color:#343a40;
 		<p>風邪症状（発熱または熱感や悪寒、咳痰などの上気道症状、咽疼痛、鼻汁や鼻閉、倦怠感、関節痛、下痢、腹痛、</p>
 		<p>吐き気、嘔吐）の有無を入力してください。
 		<p>風症状がある場合は 所属部門長へ連絡の上、欠席の手続きをしてください。</p>
+		
+		<% if(symtom.equals("1")){
+				%>
 		<select class="form-control-sm" name="gotSymtom">
+			<option value="0">無い</option>
+			<option value="1" selected>有</option>
+		</select>
+		  
+		<%
+		session.removeAttribute("symtom");
+		}
+		
+		%>
+		
+		
+		<%
+		if(symtom=="3"||symtom.equals("0")) {%>
+			<select class="form-control-sm" name="gotSymtom">
 			<option value="0">無い</option>
 			<option value="1">有</option>
 		</select>
+		<%}session.removeAttribute("symtom");
+		%>
 
 		<button type="submit" class="btn btn-primary form-control"
 			style="margin-top: 25px">登録</button>

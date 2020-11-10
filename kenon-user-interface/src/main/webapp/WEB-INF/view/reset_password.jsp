@@ -31,10 +31,10 @@
 					alt="" src="<%=request.getContextPath() %>/icon/pen_icon.png"" width="25" height="25"/><span class="d-none d-sm-inline">Kenon</span></a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
-			<a href="/kenon/logout">ログアウト</a>
+			<a href="/kenon/logout" class="btn">ログアウト</a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
-			<a style="color: black" href="/kenon/password_reset">パスワード変更</a>
+			<a style="color: black" href="/kenon/password_reset" class="btn">パスワード変更</a>
 		</div>
 
 	</nav>
