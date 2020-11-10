@@ -49,13 +49,13 @@
 		<div class="form-group pt-1">
 
 			<div>
-				<label for="password">パスワード</label>
+				<label for="password" style="float:left">パスワード</label>
 			</div>
 			<div style="text-align: right;">
 				<a href="/kenon/login/recover">パスワードを忘れた方</a>
 			</div>
 
-			<input type="password" class="form-control" name="password" re/>
+			<input type="password" class="form-control" name="password"/>
 		</div>
 		<button type="submit" class="btn btn-primary form-control" >ログイン</button>
 		
