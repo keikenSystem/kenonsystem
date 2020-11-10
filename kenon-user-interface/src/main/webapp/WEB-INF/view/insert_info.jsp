@@ -93,10 +93,10 @@ background-color:#343a40;
 			}
 		%>
 		<div class="d-inline-block p-3 float-right">
-			<a href="/kenon/logout">ログアウト</a>
+			<a href="/kenon/logout" class="btn">ログアウト</a>
 		</div>
 		<div class="d-inline-block p-3 float-right">
-			<a href="/kenon/password_reset">パスワード変更</a>
+			<a href="/kenon/password_reset" class="btn">パスワード変更</a>
 		</div>
 
 	</nav>

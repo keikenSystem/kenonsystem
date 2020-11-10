@@ -52,7 +52,7 @@
 				<label for="password" style="float:left">パスワード</label>
 			</div>
 			<div style="text-align: right;">
-				<a href="/kenon/login/recover">パスワードを忘れた方</a>
+				<a href="/kenon/login/recover" class="btn">パスワードを忘れた方</a>
 			</div>
 
 			<input type="password" class="form-control" name="password"/>
