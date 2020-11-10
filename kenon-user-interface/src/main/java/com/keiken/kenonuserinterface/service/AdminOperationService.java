@@ -282,6 +282,7 @@ public class AdminOperationService {
 		String[] headers = { "社員番号", "氏名", "カナ氏名", "部門", "mail", "パスワード", "管理権限" };
 		String errorCollector = "";
 		Map<String,Boolean> checkUserIdDuplicate = new HashMap<>();
+		Map<String,Boolean> checkemailIdDuplicate = new HashMap<>();
 		if (!hasExcelFormat(readExcelData2)) {
 			errorCollector = "ファイルタイプエラー ";
 		}
@@ -299,8 +300,11 @@ public class AdminOperationService {
 					return "行は空白にしてはいけません。 -> "+ (i + 1);
 				if(i>0) {
 					String id = row.getCell(0).getStringCellValue().trim();
-					if(checkUserIdDuplicate.get(id)!=null)
+					if(checkUserIdDuplicate.get(id)!=null) {
+						checkUserIdDuplicate.clear();
 						return "社員番号は一意でなければなりません。";
+						
+					}
 						
 					checkUserIdDuplicate.put(row.getCell(0).getStringCellValue().trim(), true);
 				}
@@ -356,8 +360,17 @@ public class AdminOperationService {
 						return errorCollector + " for " + row.getCell(3).getStringCellValue().trim() + "at " + "row "
 								+ (i + 1);
 
-					if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK)
-						errorCollector = isValid.checkEmailFormat(row.getCell(4).getStringCellValue().trim());
+					if (row.getCell(4) != null && row.getCell(4).getCellType() != Cell.CELL_TYPE_BLANK) {
+						String email = row.getCell(4).getStringCellValue().trim();
+						errorCollector = isValid.checkEmailFormat(email);
+						if(checkemailIdDuplicate.get(email)!=null) {
+							checkemailIdDuplicate.clear();	
+							return "Emailは一意でなければなりません。 行->"+(i+1);
+						
+						}
+						checkemailIdDuplicate.put(email, true);
+						
+					}
 					else
 						return "EmailはNULLではありません  行-> " + (i + 1);
 					if (errorCollector != "")

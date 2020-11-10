@@ -41,13 +41,17 @@ public class EmailControlService {
 	// Get Token for reseting password
 
 	public String createTokenForPasswordReset(String userId) {
+		RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
+		
+		if(!user.getToken().equals("")&&user.getToken()!=null) 
+			return user.getToken();
+		
 		byte[] array = new byte[32];
+		
 		new Random().nextBytes(array);
 		String generatedString = new String(array, Charset.forName("UTF-8"));
 		String randomText = generatedString;
 		token = passwordEncoder.encodedPassword(randomText);
-
-		RegistrationInfo user = repoUserLoginOperation.findById(userId).get();
 		user.setToken(token);
 		repoUserLoginOperation.save(user);
 		return token;
